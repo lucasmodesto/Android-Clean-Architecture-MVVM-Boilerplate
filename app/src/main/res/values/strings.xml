@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Android Sample MVVM</string>
+    <string name="message_retry">Tentar novamente</string>
+</resources>
