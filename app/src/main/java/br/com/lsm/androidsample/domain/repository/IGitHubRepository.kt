@@ -1,6 +1,6 @@
 package br.com.lsm.androidsample.domain.repository
 
-import br.com.lsm.androidsample.domain.entity.GithubRepository
+import br.com.lsm.androidsample.domain.entity.GithubRepo
 import io.reactivex.Single
 
 interface IGitHubRepository {
@@ -9,5 +9,5 @@ interface IGitHubRepository {
         language: String,
         sort: String,
         page: Int
-    ): Single<List<GithubRepository>>
+    ): Single<List<GithubRepo>>
 }

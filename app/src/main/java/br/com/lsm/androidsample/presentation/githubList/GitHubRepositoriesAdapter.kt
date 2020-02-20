@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
-import br.com.lsm.androidsample.domain.entity.GithubRepository
+import br.com.lsm.androidsample.domain.entity.GithubRepo
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_github_repository.view.*
 import kotlinx.android.synthetic.main.item_load_progress.view.*
 
 class GitHubRepositoriesAdapter(
-    private val data: MutableList<GithubRepository>,
-    private val itemClick: (GithubRepository) -> Unit
+    private val data: MutableList<GithubRepo>,
+    private val itemClick: (GithubRepo) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -69,15 +69,15 @@ class GitHubRepositoriesAdapter(
             false -> VIEW_TYPE_LOAD
         }
 
-    fun update(list: MutableList<GithubRepository>) {
+    fun update(list: MutableList<GithubRepo>) {
         this.data.addAll(list)
         notifyItemRangeChanged(itemCount, this.data.size)
     }
 
-    class ViewHolder(itemView: View, val itemClick: (GithubRepository) -> Unit) :
+    class ViewHolder(itemView: View, val itemClick: (GithubRepo) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: GithubRepository) {
+        fun bind(item: GithubRepo) {
 
             with(itemView) {
                 txtRepositoryName?.text = item.name

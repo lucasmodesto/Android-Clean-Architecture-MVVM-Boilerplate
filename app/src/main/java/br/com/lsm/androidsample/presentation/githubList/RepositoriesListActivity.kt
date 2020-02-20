@@ -1,40 +1,46 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
-import br.com.lsm.androidsample.domain.entity.GithubRepository
+import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.utils.EndlessRecyclerViewScrollListener
-import io.reactivex.rxkotlin.subscribeBy
+import br.com.lsm.androidsample.presentation.utils.LiveDataState
 import kotlinx.android.synthetic.main.activity_repository_list.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
-    private val repositories = mutableListOf<GithubRepository>()
+    private val repositories = mutableListOf<GithubRepo>()
     private var adapter: GitHubRepositoriesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository_list)
         setupRecyclerView()
-        loadRepositories()
-    }
+        val observer = Observer<LiveDataState<List<GithubRepo>>> { state ->
 
-    private fun loadRepositories() {
-        viewModel.getRepositories().subscribeBy(
+            when (state) {
 
-            onSuccess = {
-                adapter?.update(it.toMutableList())
-            },
+                is LiveDataState.Success -> {
+                    state.data?.let { adapter?.update(it.toMutableList()) }
+                }
 
-            onError = {
-                showError(message = getString(R.string.error_message_failed_repositories)) {
-                    loadRepositories()
+                is LiveDataState.Error -> {
+                    state.error?.let {
+                        showError(
+                            message = it.localizedMessage
+                                ?: getString(R.string.error_message_failed_repositories), action = {
+                                viewModel.fetchRepositories()
+                            })
+                    }
                 }
             }
-        )
+        }
+        viewModel.repositoriesLiveData.observe(this, observer)
+        viewModel.fetchRepositories()
     }
 
     private fun setupRecyclerView() {
@@ -52,7 +58,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 viewModel.setNextPage()
-                loadRepositories()
+                viewModel.fetchRepositories()
             }
         }
     }
