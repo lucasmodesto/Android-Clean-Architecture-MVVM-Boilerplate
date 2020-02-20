@@ -19,7 +19,7 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
     // Sets the starting page index
     private val startingPageIndex = 0
 
-    internal var mLayoutManager: RecyclerView.LayoutManager
+    private var mLayoutManager: RecyclerView.LayoutManager
 
     constructor(layoutManager: LinearLayoutManager) {
         this.mLayoutManager = layoutManager
@@ -32,7 +32,7 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
 
     constructor(layoutManager: StaggeredGridLayoutManager) {
         this.mLayoutManager = layoutManager
-        visibleThreshold = visibleThreshold * layoutManager.spanCount
+        visibleThreshold *= layoutManager.spanCount
     }
 
     fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {

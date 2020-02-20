@@ -1,23 +1,17 @@
-package br.com.lsm.androidsample.presentation
+package br.com.lsm.androidsample.presentation.githubList
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.GithubRepository
+import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.utils.EndlessRecyclerViewScrollListener
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_repository_list.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoriesListActivity : AppCompatActivity() {
+class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
-    private val viewModel by viewModel<RepositoriesListViewModel>()
     private val repositories = mutableListOf<GithubRepository>()
     private var adapter: GitHubRepositoriesAdapter? = null
 
@@ -31,38 +25,26 @@ class RepositoriesListActivity : AppCompatActivity() {
     private fun loadRepositories() {
         viewModel.getRepositories().subscribeBy(
 
-            onNext = {
-                Log.e("TAG", "onSuccess")
+            onSuccess = {
                 adapter?.update(it.toMutableList())
             },
 
             onError = {
-                Log.e("TAG", "onError", it)
-                showErrorMessage()
+                showError(message = getString(R.string.error_message_failed_repositories)) {
+                    loadRepositories()
+                }
             }
         )
     }
 
     private fun setupRecyclerView() {
         adapter = GitHubRepositoriesAdapter(repositories) { item ->
-            Toast.makeText(this, item.name, Toast.LENGTH_LONG).show()
+            // TODO: detail screen
         }
-
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = linearLayoutManager
         recyclerView?.addOnScrollListener(getEndlessRecyclerViewScrollListener(linearLayoutManager))
-    }
-
-    private fun showErrorMessage() {
-        Snackbar.make(
-            rootViewGroup,
-            "Erro ao carregar repositórios",
-            Snackbar.LENGTH_INDEFINITE
-        ).setActionTextColor(ContextCompat.getColor(this, android.R.color.white))
-            .setAction(getString(R.string.message_retry)) {
-                loadRepositories()
-            }.show()
     }
 
     private fun getEndlessRecyclerViewScrollListener(layoutManager: LinearLayoutManager): EndlessRecyclerViewScrollListener {

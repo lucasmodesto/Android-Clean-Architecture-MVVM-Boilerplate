@@ -2,6 +2,7 @@ package br.com.lsm.androidsample.domain.usecase
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 abstract class UseCase {
 
@@ -13,6 +14,17 @@ abstract class UseCase {
 
         interface WithoutInput<Result> {
             fun execute(): Observable<Result>
+        }
+    }
+
+    object FromSingle {
+
+        interface WithInput<in Input, Result> {
+            fun execute(params: Input): Single<Result>
+        }
+
+        interface WithoutInput<Result> {
+            fun execute(): Single<Result>
         }
     }
 

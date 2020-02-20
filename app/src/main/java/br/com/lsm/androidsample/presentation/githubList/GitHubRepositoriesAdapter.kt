@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation
+package br.com.lsm.androidsample.presentation.githubList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +20,11 @@ class GitHubRepositoriesAdapter(
         private const val VIEW_TYPE_LOAD = 1
     }
 
-    private var loadedAll = false
-
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when (position < itemCount - 1 && !loadedAll) {
+        when (position < itemCount - 1) {
             true -> {
                 val viewHolder = holder as ViewHolder
                 viewHolder.bind(data[position])

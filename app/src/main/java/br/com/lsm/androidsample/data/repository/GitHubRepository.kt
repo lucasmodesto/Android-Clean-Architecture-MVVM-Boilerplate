@@ -4,7 +4,7 @@ import br.com.lsm.androidsample.data.mapper.RepositoryMapper
 import br.com.lsm.androidsample.data.network.GitHubService
 import br.com.lsm.androidsample.domain.entity.GithubRepository
 import br.com.lsm.androidsample.domain.repository.IGitHubRepository
-import io.reactivex.Observable
+import io.reactivex.Single
 
 class GitHubRepository(private val service: GitHubService) : IGitHubRepository {
 
@@ -12,7 +12,7 @@ class GitHubRepository(private val service: GitHubService) : IGitHubRepository {
         language: String,
         sort: String,
         page: Int
-    ): Observable<List<GithubRepository>> {
+    ): Single<List<GithubRepository>> {
         return service.getRepositories(
             query = String.format("language:%s", language),
             sort = sort,
