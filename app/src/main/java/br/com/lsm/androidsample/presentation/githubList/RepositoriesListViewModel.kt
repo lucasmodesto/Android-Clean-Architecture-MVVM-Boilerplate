@@ -6,7 +6,8 @@ import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
 import br.com.lsm.androidsample.presentation.extensions.applyDefaultSchedulers
-import br.com.lsm.androidsample.presentation.utils.LiveDataState
+import br.com.lsm.androidsample.presentation.core.State
+import io.reactivex.rxkotlin.subscribeBy
 
 class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetRepositoriesUseCase) :
     BaseViewModel() {
@@ -14,7 +15,7 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
     private var page: Int = 0
 
     val repositoriesLiveData by lazy {
-        MutableLiveData<LiveDataState<List<GithubRepo>>>()
+        MutableLiveData<State<List<GithubRepo>>>()
     }
 
     fun fetchRepositories() {
@@ -24,13 +25,20 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
                 sort = "",
                 page = page
             )
-        ).doOnSubscribe {
-            this.disposables.add(it)
-            this.repositoriesLiveData.postValue(LiveDataState.Loading())
-        }.applyDefaultSchedulers()
-            .doOnSuccess { repositoriesLiveData.postValue(LiveDataState.Success(data = it)) }
-            .doOnError { repositoriesLiveData.postValue(LiveDataState.Error(it)) }
-            .subscribe()
+        ).applyDefaultSchedulers()
+            .doOnSubscribe { repositoriesLiveData.value = State.Loading(isLoading = true) }
+            .subscribeBy(
+
+                onSuccess = {
+                    repositoriesLiveData.value = State.Loading(isLoading = false)
+                    repositoriesLiveData.postValue(State.Success(data = it))
+                },
+
+                onError = {
+                    repositoriesLiveData.value = State.Loading(isLoading = false)
+                    repositoriesLiveData.postValue(State.Error(error = it))
+                }
+            ).also { this.disposables.add(it) }
     }
 
     fun setNextPage() {

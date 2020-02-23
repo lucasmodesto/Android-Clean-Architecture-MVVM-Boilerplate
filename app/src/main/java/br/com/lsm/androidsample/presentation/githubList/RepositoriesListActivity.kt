@@ -1,6 +1,7 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.utils.EndlessRecyclerViewScrollListener
-import br.com.lsm.androidsample.presentation.utils.LiveDataState
+import br.com.lsm.androidsample.presentation.core.State
 import kotlinx.android.synthetic.main.activity_repository_list.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
@@ -20,15 +21,24 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository_list)
         setupRecyclerView()
-        val observer = Observer<LiveDataState<List<GithubRepo>>> { state ->
+        setLiveDataObserver()
+        viewModel.fetchRepositories()
+    }
+
+    private fun setLiveDataObserver() {
+        val observer = Observer<State<List<GithubRepo>>> { state ->
 
             when (state) {
 
-                is LiveDataState.Success -> {
+                is State.Loading -> {
+                    Toast.makeText(this, state.isLoading.toString(), Toast.LENGTH_LONG).show()
+                }
+
+                is State.Success -> {
                     state.data?.let { adapter?.update(it.toMutableList()) }
                 }
 
-                is LiveDataState.Error -> {
+                is State.Error -> {
                     state.error?.let {
                         showError(
                             message = it.localizedMessage
@@ -40,7 +50,6 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
             }
         }
         viewModel.repositoriesLiveData.observe(this, observer)
-        viewModel.fetchRepositories()
     }
 
     private fun setupRecyclerView() {
