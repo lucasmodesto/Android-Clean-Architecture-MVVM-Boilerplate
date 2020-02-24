@@ -76,9 +76,7 @@ class GitHubRepositoriesAdapter(
 
     class ViewHolder(itemView: View, val itemClick: (GithubRepo) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
-
         fun bind(item: GithubRepo) {
-
             with(itemView) {
                 txtRepositoryName?.text = item.name
                 txtRepositoryDescription?.text = item.description

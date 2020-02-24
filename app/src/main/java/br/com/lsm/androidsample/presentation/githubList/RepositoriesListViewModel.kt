@@ -5,7 +5,8 @@ import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
-import br.com.lsm.androidsample.presentation.extensions.applyDefaultSchedulers
+import br.com.lsm.androidsample.data.extensions.applyDefaultSchedulers
+import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.presentation.core.State
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -25,7 +26,9 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
                 sort = "",
                 page = page
             )
-        ).applyDefaultSchedulers()
+        )
+            .applyDefaultSchedulers()
+            .composeErrorTransformers()
             .doOnSubscribe { repositoriesLiveData.value = State.Loading(isLoading = true) }
             .subscribeBy(
 

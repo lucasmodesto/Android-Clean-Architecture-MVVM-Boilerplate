@@ -3,6 +3,7 @@ package br.com.lsm.androidsample.presentation.core
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.com.lsm.androidsample.R
+import br.com.lsm.androidsample.data.errors.NetworkError
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.reflect.ParameterizedType
@@ -28,6 +29,23 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView 
                 .setAction(getString(R.string.message_retry)) {
                     action.invoke()
                 }.show()
+        }
+    }
+
+    protected fun handleError(error: Throwable, retryAction: () -> Unit) {
+        when (error) {
+
+            is NetworkError.NotConnected -> {
+                showError(getString(R.string.message_no_internet), retryAction)
+            }
+
+            is NetworkError.SlowConnection -> {
+                showError(getString(R.string.message_slow_internet), retryAction)
+            }
+
+            else -> {
+                showError(getString(R.string.message_unknown_error), retryAction)
+            }
         }
     }
 }

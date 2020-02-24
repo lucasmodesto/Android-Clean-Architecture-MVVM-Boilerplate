@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Android Sample MVVM</string>
-    <string name="message_retry">Tentar novamente</string>
-    <string name="error_message_failed_repositories">Erro ao carregar repositórios</string>
+    <string name="message_retry">Try again</string>
+    <string name="message_unknown_error">An unexpected error has occurred</string>
+    <string name="message_no_internet">No internet connection</string>
+    <string name="message_slow_internet">Slow internet connection</string>
 </resources>

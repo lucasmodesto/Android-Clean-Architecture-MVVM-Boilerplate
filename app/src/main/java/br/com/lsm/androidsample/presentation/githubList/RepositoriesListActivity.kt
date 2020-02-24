@@ -40,11 +40,9 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
                 is State.Error -> {
                     state.error?.let {
-                        showError(
-                            message = it.localizedMessage
-                                ?: getString(R.string.error_message_failed_repositories), action = {
-                                viewModel.fetchRepositories()
-                            })
+                        this.handleError(
+                            error = it,
+                            retryAction = { viewModel.fetchRepositories() })
                     }
                 }
             }
