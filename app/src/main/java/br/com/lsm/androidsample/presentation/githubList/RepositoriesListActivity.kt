@@ -15,7 +15,9 @@ import kotlinx.android.synthetic.main.activity_repository_list.*
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
     private val repositories = mutableListOf<GithubRepo>()
-    private var adapter: GitHubRepositoriesAdapter? = null
+    private val adapter: GitHubRepositoriesAdapter by lazy {
+        GitHubRepositoriesAdapter(repositories) { onItemClick(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,17 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         setupRecyclerView()
         setLiveDataObserver()
         viewModel.fetchRepositories()
+    }
+
+    private fun setupRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerView?.adapter = adapter
+        recyclerView?.layoutManager = linearLayoutManager
+        recyclerView?.addOnScrollListener(getEndlessRecyclerViewScrollListener(linearLayoutManager))
+    }
+
+    private val onItemClick = { item: GithubRepo ->
+        // TODO:
     }
 
     private fun setLiveDataObserver() {
@@ -35,7 +48,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                 }
 
                 is State.Success -> {
-                    state.data?.let { adapter?.update(it.toMutableList()) }
+                    state.data?.let { adapter.update(it.toMutableList()) }
                 }
 
                 is State.Error -> {
@@ -48,16 +61,6 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
             }
         }
         viewModel.repositoriesLiveData.observe(this, observer)
-    }
-
-    private fun setupRecyclerView() {
-        adapter = GitHubRepositoriesAdapter(repositories) { item ->
-            // TODO: detail screen
-        }
-        val linearLayoutManager = LinearLayoutManager(this)
-        recyclerView?.adapter = adapter
-        recyclerView?.layoutManager = linearLayoutManager
-        recyclerView?.addOnScrollListener(getEndlessRecyclerViewScrollListener(linearLayoutManager))
     }
 
     private fun getEndlessRecyclerViewScrollListener(layoutManager: LinearLayoutManager): EndlessRecyclerViewScrollListener {
