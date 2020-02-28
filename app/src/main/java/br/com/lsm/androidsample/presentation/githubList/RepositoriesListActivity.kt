@@ -1,14 +1,12 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
-import br.com.lsm.androidsample.presentation.utils.EndlessRecyclerViewScrollListener
 import br.com.lsm.androidsample.presentation.core.State
 import kotlinx.android.synthetic.main.activity_repository_list.*
 
@@ -31,7 +29,19 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = linearLayoutManager
-        recyclerView?.addOnScrollListener(getEndlessRecyclerViewScrollListener(linearLayoutManager))
+        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!recyclerView.canScrollVertically(1) &&
+                    newState == RecyclerView.SCROLL_STATE_IDLE
+                ) {
+                    viewModel.setNextPage()
+                    viewModel.fetchRepositories()
+                }
+            }
+        })
     }
 
     private val onItemClick = { item: GithubRepo ->
@@ -44,32 +54,21 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
             when (state) {
 
                 is State.Loading -> {
-                    Toast.makeText(this, state.isLoading.toString(), Toast.LENGTH_LONG).show()
+                    if (state.isLoading) showLoading() else hideLoading()
                 }
 
                 is State.Success -> {
-                    state.data?.let { adapter.update(it.toMutableList()) }
+                    adapter.update(state.data.toMutableList())
                 }
 
                 is State.Error -> {
-                    state.error?.let {
-                        this.handleError(
-                            error = it,
-                            retryAction = { viewModel.fetchRepositories() })
-                    }
+                    handleError(
+                        error = state.error,
+                        retryAction = { viewModel.fetchRepositories() })
                 }
             }
         }
         viewModel.repositoriesLiveData.observe(this, observer)
     }
 
-    private fun getEndlessRecyclerViewScrollListener(layoutManager: LinearLayoutManager): EndlessRecyclerViewScrollListener {
-        return object : EndlessRecyclerViewScrollListener(layoutManager) {
-
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                viewModel.setNextPage()
-                viewModel.fetchRepositories()
-            }
-        }
-    }
 }

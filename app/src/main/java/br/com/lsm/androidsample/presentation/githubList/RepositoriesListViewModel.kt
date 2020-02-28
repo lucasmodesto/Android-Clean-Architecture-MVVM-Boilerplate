@@ -1,19 +1,20 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import androidx.lifecycle.MutableLiveData
+import br.com.lsm.androidsample.data.extensions.applyDefaultSchedulers
+import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
-import br.com.lsm.androidsample.data.extensions.applyDefaultSchedulers
-import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.presentation.core.State
 import io.reactivex.rxkotlin.subscribeBy
 
-class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetRepositoriesUseCase) :
-    BaseViewModel() {
+class RepositoriesListViewModel(
+    private val getRepositoriesUseCase: IGetRepositoriesUseCase
+) : BaseViewModel() {
 
-    private var page: Int = 0
+    private var page: Int = 1
 
     val repositoriesLiveData by lazy {
         MutableLiveData<State<List<GithubRepo>>>()
@@ -34,12 +35,12 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
 
                 onSuccess = {
                     repositoriesLiveData.value = State.Loading(isLoading = false)
-                    repositoriesLiveData.postValue(State.Success(data = it))
+                    repositoriesLiveData.value = State.Success(data = it)
                 },
 
                 onError = {
                     repositoriesLiveData.value = State.Loading(isLoading = false)
-                    repositoriesLiveData.postValue(State.Error(error = it))
+                    repositoriesLiveData.value = State.Error(error = it)
                 }
             ).also { this.disposables.add(it) }
     }

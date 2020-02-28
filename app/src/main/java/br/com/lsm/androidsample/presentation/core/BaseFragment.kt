@@ -17,7 +17,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(), BaseView {
             .actualTypeArguments[0] as Class<VM>).kotlin
     }
 
-    override fun showError(message: String, action: () -> Unit) {
-        baseActivity?.showError(message, action)
+    override fun showErrorMessage(message: String, action: () -> Unit) {
+        baseActivity?.showErrorMessage(message, action)
     }
 }
