@@ -1,8 +1,8 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import androidx.lifecycle.MutableLiveData
-import br.com.lsm.androidsample.data.extensions.applyDefaultSchedulers
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
+import br.com.lsm.androidsample.data.extensions.defaultSchedulers
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
@@ -24,20 +24,17 @@ class RepositoriesListViewModel(
         getRepositoriesUseCase.execute(
             GetRepositoriesInput(
                 language = "Kotlin",
-                sort = "",
                 page = page
             )
         )
-            .applyDefaultSchedulers()
+            .defaultSchedulers()
             .composeErrorTransformers()
             .doOnSubscribe { repositoriesLiveData.value = State.Loading(isLoading = true) }
             .subscribeBy(
-
                 onSuccess = {
                     repositoriesLiveData.value = State.Loading(isLoading = false)
                     repositoriesLiveData.value = State.Success(data = it)
                 },
-
                 onError = {
                     repositoriesLiveData.value = State.Loading(isLoading = false)
                     repositoriesLiveData.value = State.Error(error = it)

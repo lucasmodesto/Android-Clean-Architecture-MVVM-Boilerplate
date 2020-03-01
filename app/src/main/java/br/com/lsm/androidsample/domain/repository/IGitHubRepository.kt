@@ -7,7 +7,6 @@ interface IGitHubRepository {
 
     fun getRepositories(
         language: String,
-        sort: String,
         page: Int
     ): Single<List<GithubRepo>>
 }

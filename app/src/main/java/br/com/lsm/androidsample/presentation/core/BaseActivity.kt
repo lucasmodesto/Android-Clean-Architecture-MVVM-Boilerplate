@@ -17,12 +17,6 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView 
     protected val viewModel: VM by lazy { getViewModel(getViewModelClass()) }
     private var loadingView: View? = null
 
-    @Suppress("UNCHECKED_CAST")
-    private fun getViewModelClass(): KClass<VM> {
-        return ((javaClass.genericSuperclass as ParameterizedType)
-            .actualTypeArguments[0] as Class<VM>).kotlin
-    }
-
     override fun showErrorMessage(message: String, action: () -> Unit) {
         if (!isFinishing) {
             Snackbar.make(
@@ -65,5 +59,11 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView 
                 showErrorMessage(getString(R.string.message_unknown_error), retryAction)
             }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getViewModelClass(): KClass<VM> {
+        return ((javaClass.genericSuperclass as ParameterizedType)
+            .actualTypeArguments[0] as Class<VM>).kotlin
     }
 }

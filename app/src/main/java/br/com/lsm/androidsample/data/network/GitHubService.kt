@@ -10,7 +10,6 @@ interface GitHubService {
     @GET("search/repositories?")
     fun getRepositories(
         @Query("q") query: String,
-        @Query("sort") sort: String,
         @Query("page") page: Int
     ): Single<RepositorySearchResponse>
 }

@@ -50,17 +50,13 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
     private fun setLiveDataObserver() {
         val observer = Observer<State<List<GithubRepo>>> { state ->
-
             when (state) {
-
                 is State.Loading -> {
                     if (state.isLoading) showLoading() else hideLoading()
                 }
-
                 is State.Success -> {
-                    adapter.update(state.data.toMutableList())
+                    adapter.update(state.data)
                 }
-
                 is State.Error -> {
                     handleError(
                         error = state.error,

@@ -9,7 +9,6 @@ class GetRepositoriesUseCase(private val repository: IGitHubRepository) : IGetRe
     override fun execute(params: GetRepositoriesInput): Single<List<GithubRepo>> {
         return repository.getRepositories(
             language = params.language,
-            sort = params.sort,
             page = params.page
         )
     }

@@ -10,12 +10,10 @@ class GitHubRepository(private val service: GitHubService) : IGitHubRepository {
 
     override fun getRepositories(
         language: String,
-        sort: String,
         page: Int
     ): Single<List<GithubRepo>> {
         return service.getRepositories(
             query = String.format("language:%s", language),
-            sort = sort,
             page = page
         ).map { response ->
             response.items.map { RepositoryMapper.map(it) }

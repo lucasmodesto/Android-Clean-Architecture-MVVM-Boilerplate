@@ -12,16 +12,15 @@ import kotlinx.android.synthetic.main.item_github_repository.view.*
 class GitHubRepositoriesAdapter(
     private val data: MutableList<GithubRepo>,
     private val itemClick: (GithubRepo) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<GitHubRepositoriesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val viewHolder = holder as ViewHolder
-        viewHolder.bind(data[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_github_repository,
@@ -29,7 +28,7 @@ class GitHubRepositoriesAdapter(
             ), itemClick
         )
 
-    fun update(list: MutableList<GithubRepo>) {
+    fun update(list: List<GithubRepo>) {
         this.data.addAll(list)
         notifyItemRangeChanged(itemCount, this.data.size)
     }
