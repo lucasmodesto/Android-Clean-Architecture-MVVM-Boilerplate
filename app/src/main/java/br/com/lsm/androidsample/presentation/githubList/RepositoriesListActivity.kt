@@ -20,16 +20,16 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository_list)
-        setupRecyclerView()
+        setupRepositoriesRecyclerView()
         setLiveDataObserver()
         viewModel.fetchRepositories()
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRepositoriesRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)
-        recyclerView?.adapter = adapter
-        recyclerView?.layoutManager = linearLayoutManager
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rvRepositories?.adapter = adapter
+        rvRepositories?.layoutManager = linearLayoutManager
+        rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

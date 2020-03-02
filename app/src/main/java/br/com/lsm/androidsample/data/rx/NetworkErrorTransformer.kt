@@ -11,10 +11,10 @@ import java.net.UnknownHostException
 class NetworkErrorTransformer<T> : SingleTransformer<T, T> {
 
     override fun apply(upstream: Single<T>): SingleSource<T> {
-        return upstream.onErrorResumeNext(this::handleIfNetworkError)
+        return upstream.onErrorResumeNext(this::transformNetworkError)
     }
 
-    private fun handleIfNetworkError(error: Throwable): Single<T> {
+    private fun transformNetworkError(error: Throwable): Single<T> {
         return when (error) {
 
             is UnknownHostException -> {

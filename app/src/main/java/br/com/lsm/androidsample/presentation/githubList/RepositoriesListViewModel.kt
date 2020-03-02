@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.data.extensions.defaultSchedulers
 import br.com.lsm.androidsample.domain.entity.GithubRepo
+import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
@@ -23,7 +24,7 @@ class RepositoriesListViewModel(
     fun fetchRepositories() {
         getRepositoriesUseCase.execute(
             GetRepositoriesInput(
-                language = "Kotlin",
+                language = Language.Kotlin,
                 page = page
             )
         )
