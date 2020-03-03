@@ -6,29 +6,58 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.GithubRepo
+import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.core.State
+import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import kotlinx.android.synthetic.main.activity_repository_list.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
     private val repositories = mutableListOf<GithubRepo>()
     private val adapter: GitHubRepositoriesAdapter by lazy {
-        GitHubRepositoriesAdapter(repositories) { onItemClick(it) }
+        GitHubRepositoriesAdapter(repositories) { onRepositoryItemClick(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository_list)
         setupRepositoriesRecyclerView()
+        setupLanguagesRecyclerView()
         setLiveDataObserver()
-        viewModel.fetchRepositories()
+        if (repositories.isEmpty()) viewModel.fetchRepositories()
+    }
+
+    private fun setupLanguagesRecyclerView() {
+        rvLanguages?.adapter = LanguagesAdapter(
+            listOf(
+                LanguageViewObject(
+                    language = Language.Kotlin,
+                    imageResId = R.drawable.ic_language_kotlin,
+                    displayNameResId = R.string.language_kotlin
+                ),
+                LanguageViewObject(
+                    language = Language.Swift,
+                    imageResId = R.drawable.ic_language_swift,
+                    displayNameResId = R.string.language_swift
+                )
+            ), onItemClick = { onLanguageItemClick.invoke(it) }
+        )
+        rvLanguages?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private val onLanguageItemClick = { languageViewObject: LanguageViewObject ->
+        adapter.clear()
+        viewModel.apply {
+            resetPage()
+            setLanguageFilter(language = languageViewObject.language)
+            fetchRepositories()
+        }
     }
 
     private fun setupRepositoriesRecyclerView() {
-        val linearLayoutManager = LinearLayoutManager(this)
         rvRepositories?.adapter = adapter
-        rvRepositories?.layoutManager = linearLayoutManager
+        rvRepositories?.layoutManager = LinearLayoutManager(this)
         rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -44,7 +73,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         })
     }
 
-    private val onItemClick = { item: GithubRepo ->
+    private val onRepositoryItemClick = { item: GithubRepo ->
         // TODO:
     }
 
@@ -64,7 +93,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                 }
             }
         }
-        viewModel.repositoriesLiveData.observe(this, observer)
+        viewModel.liveData.observe(this, observer)
     }
 
 }

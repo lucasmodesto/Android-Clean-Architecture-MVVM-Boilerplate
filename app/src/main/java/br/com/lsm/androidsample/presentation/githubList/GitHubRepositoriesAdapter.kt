@@ -33,6 +33,11 @@ class GitHubRepositoriesAdapter(
         notifyItemRangeChanged(itemCount, this.data.size)
     }
 
+    fun clear() {
+        this.data.clear()
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(itemView: View, val itemClick: (GithubRepo) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
