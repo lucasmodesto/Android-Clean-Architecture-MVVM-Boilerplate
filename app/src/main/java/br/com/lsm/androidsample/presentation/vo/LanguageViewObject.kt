@@ -1,6 +1,9 @@
 package br.com.lsm.androidsample.presentation.vo
 
+import br.com.lsm.androidsample.domain.entity.Language
+
 data class LanguageViewObject(
-    val displayName: String,
+    val language: Language,
+    val displayNameResId: Int,
     val imageResId: Int
 )
