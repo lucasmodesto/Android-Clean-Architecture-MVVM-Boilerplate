@@ -8,23 +8,23 @@ abstract class UseCase {
 
     object FromObservable {
 
-        interface WithInput<in Input, Result> {
-            fun execute(params: Input): Observable<Result>
+        interface WithInput<in Input, Output> {
+            fun execute(params: Input): Observable<Output>
         }
 
-        interface WithoutInput<Result> {
-            fun execute(): Observable<Result>
+        interface WithoutInput<Output> {
+            fun execute(): Observable<Output>
         }
     }
 
     object FromSingle {
 
-        interface WithInput<in Input, Result> {
-            fun execute(params: Input): Single<Result>
+        interface WithInput<in Input, Output> {
+            fun execute(params: Input): Single<Output>
         }
 
-        interface WithoutInput<Result> {
-            fun execute(): Single<Result>
+        interface WithoutInput<Output> {
+            fun execute(): Single<Output>
         }
     }
 
