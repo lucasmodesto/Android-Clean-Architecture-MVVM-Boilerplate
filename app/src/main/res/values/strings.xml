@@ -6,4 +6,7 @@
     <string name="message_slow_internet">Slow internet connection</string>
     <string name="language_kotlin">Kotlin</string>
     <string name="language_swift">Swift</string>
+    <string name="language_java">Java</string>
+    <string name="language_python">Python</string>
+    <string name="language_scala">Scala</string>
 </resources>

@@ -40,19 +40,33 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     language = Language.Swift,
                     imageResId = R.drawable.ic_language_swift,
                     displayNameResId = R.string.language_swift
+                ),
+                LanguageViewObject(
+                    language = Language.Java,
+                    imageResId = R.drawable.ic_language_java,
+                    displayNameResId = R.string.language_java
+                ),
+                LanguageViewObject(
+                    language = Language.Python,
+                    imageResId = R.drawable.ic_language_python,
+                    displayNameResId = R.string.language_python
+                ),
+                LanguageViewObject(
+                    language = Language.Scala,
+                    imageResId = R.drawable.ic_language_scala,
+                    displayNameResId = R.string.language_scala
                 )
-            ), onItemClick = { onLanguageItemClick.invoke(it) }
+            ), onItemClick = {
+                adapter.clear()
+                viewModel.apply {
+                    resetPage()
+                    setLanguageFilter(language = it.language)
+                    fetchRepositories()
+                }
+            }
         )
-        rvLanguages?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    }
-
-    private val onLanguageItemClick = { languageViewObject: LanguageViewObject ->
-        adapter.clear()
-        viewModel.apply {
-            resetPage()
-            setLanguageFilter(language = languageViewObject.language)
-            fetchRepositories()
-        }
+        rvLanguages?.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setupRepositoriesRecyclerView() {
