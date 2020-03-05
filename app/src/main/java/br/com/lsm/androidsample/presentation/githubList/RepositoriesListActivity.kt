@@ -115,7 +115,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         val observer = Observer<State<List<GithubRepo>>> { state ->
             when (state) {
                 is State.Loading -> {
-                    if (state.isLoading) showLoading() else hideLoading()
+                    // TODO: Shimmer loading
                 }
                 is State.Success -> {
                     adapter.update(state.data)
