@@ -38,4 +38,15 @@ abstract class UseCase {
             fun execute(): Completable
         }
     }
+
+    object FromCallback {
+
+        interface WithInput<in Input, Output> {
+            fun execute(params: Input, onSuccess: (Output) -> Unit, onError: (Throwable) -> Unit)
+        }
+
+        interface WithoutInput<Output> {
+            fun execute(onSuccess: (Output) -> Unit, onError: (Throwable) -> Unit)
+        }
+    }
 }
