@@ -20,12 +20,4 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(), BaseView {
     override fun showErrorMessage(message: String, action: () -> Unit) {
         baseActivity?.showErrorMessage(message, action)
     }
-
-    override fun showLoading() {
-        baseActivity?.showLoading()
-    }
-
-    override fun hideLoading() {
-        baseActivity?.hideLoading()
-    }
 }
