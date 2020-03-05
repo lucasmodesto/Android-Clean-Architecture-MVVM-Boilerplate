@@ -9,4 +9,8 @@
     <string name="language_java">Java</string>
     <string name="language_python">Python</string>
     <string name="language_scala">Scala</string>
+    <string name="language_javascript">JavaScript</string>
+    <string name="language_c_sharp">C#</string>
+    <string name="language_ruby">Ruby</string>
+    <string name="language_dart">Dart</string>
 </resources>

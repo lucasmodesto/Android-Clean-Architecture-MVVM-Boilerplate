@@ -9,8 +9,12 @@ object LanguageQuery {
             is Language.Kotlin -> "kotlin"
             is Language.Swift -> "swift"
             is Language.Java -> "java"
+            is Language.JavaScript -> "javascript"
+            is Language.CSharp -> "c#"
             is Language.Python -> "python"
             is Language.Scala -> "scala"
+            is Language.Ruby -> "ruby"
+            is Language.Dart -> "dart"
         }
     }
 }

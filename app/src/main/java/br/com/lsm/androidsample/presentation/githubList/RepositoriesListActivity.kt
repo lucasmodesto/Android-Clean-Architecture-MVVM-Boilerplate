@@ -42,9 +42,24 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     displayNameResId = R.string.language_swift
                 ),
                 LanguageViewObject(
+                    language = Language.Dart,
+                    imageResId = R.drawable.ic_language_dart,
+                    displayNameResId = R.string.language_dart
+                ),
+                LanguageViewObject(
                     language = Language.Java,
                     imageResId = R.drawable.ic_language_java,
                     displayNameResId = R.string.language_java
+                ),
+                LanguageViewObject(
+                    language = Language.JavaScript,
+                    imageResId = R.drawable.ic_language_javascript,
+                    displayNameResId = R.string.language_javascript
+                ),
+                LanguageViewObject(
+                    language = Language.CSharp,
+                    imageResId = R.drawable.ic_language_c_sharp,
+                    displayNameResId = R.string.language_c_sharp
                 ),
                 LanguageViewObject(
                     language = Language.Python,
@@ -55,6 +70,11 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     language = Language.Scala,
                     imageResId = R.drawable.ic_language_scala,
                     displayNameResId = R.string.language_scala
+                ),
+                LanguageViewObject(
+                    language = Language.Ruby,
+                    imageResId = R.drawable.ic_language_ruby,
+                    displayNameResId = R.string.language_ruby
                 )
             ), onItemClick = {
                 adapter.clear()
