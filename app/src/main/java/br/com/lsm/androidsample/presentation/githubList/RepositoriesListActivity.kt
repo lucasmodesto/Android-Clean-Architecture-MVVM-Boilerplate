@@ -14,10 +14,7 @@ import kotlinx.android.synthetic.main.activity_repository_list.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
-    private val repositories = mutableListOf<GithubRepo>()
-    private val adapter: GitHubRepositoriesAdapter by lazy {
-        GitHubRepositoriesAdapter(repositories) { onRepositoryItemClick(it) }
-    }
+    private var adapter: GitHubRepositoriesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +22,26 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         setupRepositoriesRecyclerView()
         setupLanguagesRecyclerView()
         setLiveDataObserver()
-        if (repositories.isEmpty()) viewModel.fetchRepositories()
+        viewModel.fetchRepositories()
+    }
+
+    private fun setLiveDataObserver() {
+        val observer = Observer<State<List<GithubRepo>>> { state ->
+            when (state) {
+                is State.Loading -> {
+                    // TODO: Shimmer loading
+                }
+                is State.Success -> {
+                    adapter?.update(state.data)
+                }
+                is State.Error -> {
+                    handleError(
+                        error = state.error,
+                        retryAction = { viewModel.fetchRepositories() })
+                }
+            }
+        }
+        viewModel.getRepositories().observe(this, observer)
     }
 
     private fun setupLanguagesRecyclerView() {
@@ -77,7 +93,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     displayNameResId = R.string.language_ruby
                 )
             ), onItemClick = {
-                adapter.clear()
+                adapter?.clear()
                 viewModel.apply {
                     resetPage()
                     setLanguageFilter(language = it.language)
@@ -90,6 +106,9 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
     }
 
     private fun setupRepositoriesRecyclerView() {
+        this.adapter = GitHubRepositoriesAdapter(itemClick = {
+            // TODO: detail
+        })
         rvRepositories?.adapter = adapter
         rvRepositories?.layoutManager = LinearLayoutManager(this)
         rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -106,28 +125,4 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
             }
         })
     }
-
-    private val onRepositoryItemClick = { item: GithubRepo ->
-        // TODO:
-    }
-
-    private fun setLiveDataObserver() {
-        val observer = Observer<State<List<GithubRepo>>> { state ->
-            when (state) {
-                is State.Loading -> {
-                    // TODO: Shimmer loading
-                }
-                is State.Success -> {
-                    adapter.update(state.data)
-                }
-                is State.Error -> {
-                    handleError(
-                        error = state.error,
-                        retryAction = { viewModel.fetchRepositories() })
-                }
-            }
-        }
-        viewModel.liveData.observe(this, observer)
-    }
-
 }

@@ -9,10 +9,9 @@ import br.com.lsm.androidsample.domain.entity.GithubRepo
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_github_repository.view.*
 
-class GitHubRepositoriesAdapter(
-    private val data: MutableList<GithubRepo>,
-    private val itemClick: (GithubRepo) -> Unit
-) : RecyclerView.Adapter<GitHubRepositoriesAdapter.ViewHolder>() {
+class GitHubRepositoriesAdapter(private val itemClick: (GithubRepo) -> Unit) : RecyclerView.Adapter<GitHubRepositoriesAdapter.ViewHolder>() {
+
+    private val data = mutableListOf<GithubRepo>()
 
     override fun getItemCount(): Int = data.size
 

@@ -1,5 +1,6 @@
 package br.com.lsm.androidsample.presentation.githubList
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
@@ -20,9 +21,9 @@ class RepositoriesListViewModel(
     private var page: Int = 1
     private var selectedLanguage: Language = Language.Kotlin
 
-    val liveData by lazy {
-        MutableLiveData<State<List<GithubRepo>>>()
-    }
+    private val liveData = MutableLiveData<State<List<GithubRepo>>>()
+
+    fun getRepositories(): LiveData<State<List<GithubRepo>>> = liveData
 
     fun fetchRepositories() {
         getRepositoriesUseCase.execute(
