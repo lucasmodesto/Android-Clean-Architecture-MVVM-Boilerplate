@@ -26,23 +26,6 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView 
         }
     }
 
-    protected fun handleError(error: Throwable, retryAction: () -> Unit) {
-        when (error) {
-
-            is NetworkError.NotConnected -> {
-                showErrorMessage(getString(R.string.message_no_internet), retryAction)
-            }
-
-            is NetworkError.SlowConnection -> {
-                showErrorMessage(getString(R.string.message_slow_internet), retryAction)
-            }
-
-            else -> {
-                showErrorMessage(getString(R.string.message_unknown_error), retryAction)
-            }
-        }
-    }
-
     @Suppress("UNCHECKED_CAST")
     private fun getViewModelClass(): KClass<VM> {
         return ((javaClass.genericSuperclass as ParameterizedType)

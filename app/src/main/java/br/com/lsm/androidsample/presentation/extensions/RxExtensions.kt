@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 
 fun <T> Single<T>.subscribeWithLiveDataState(liveData: MutableLiveData<State<T>>): Disposable {
     return this.doOnSubscribe {
-            liveData.value = State.Loading<T>(isLoading = true)
+            liveData.value = State.Loading(isLoading = true)
         }
         .doOnSuccess {
             liveData.value = State.Loading(isLoading = false)

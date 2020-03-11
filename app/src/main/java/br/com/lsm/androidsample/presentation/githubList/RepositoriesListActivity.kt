@@ -49,9 +49,11 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     adapter.update(state.data)
                 }
                 is State.Error -> {
-                    handleError(
-                        error = state.error,
-                        retryAction = { viewModel.fetchRepositories() })
+                    showErrorMessage(
+                        message = getString(state.getErrorMessage()),
+                        action = {
+                            viewModel.fetchRepositories()
+                        })
                 }
             }
         }
