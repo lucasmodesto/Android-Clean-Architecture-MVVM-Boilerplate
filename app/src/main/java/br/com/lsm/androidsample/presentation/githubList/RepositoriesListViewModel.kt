@@ -11,8 +11,8 @@ import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
 import br.com.lsm.androidsample.presentation.core.State
+import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
 import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
-import io.reactivex.rxkotlin.subscribeBy
 
 class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetRepositoriesUseCase) :
     BaseViewModel() {
@@ -20,9 +20,8 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
     private var page: Int = 1
     private var selectedLanguage: Language = Language.Kotlin
     private val liveData = MutableLiveData<State<List<GithubRepo>>>()
-    val repositoriesList = mutableListOf<GithubRepo>()
-
     fun getRepositories(): LiveData<State<List<GithubRepo>>> = liveData
+    val repositoriesList = mutableListOf<GithubRepo>()
 
     fun fetchRepositories() {
         getRepositoriesUseCase.execute(
@@ -33,18 +32,8 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
             )
             .defaultSchedulers()
             .composeErrorTransformers()
-            .doOnSubscribe { liveData.value = State.Loading(isLoading = true) }
-            .subscribeBy(
-                onSuccess = {
-                    this.repositoriesList.addAll(it)
-                    liveData.value = State.Loading(isLoading = false)
-                    liveData.value = State.Success(data = it)
-                },
-                onError = {
-                    liveData.value = State.Loading(isLoading = false)
-                    liveData.value = State.Error(error = it)
-                }
-            ).also { this.disposables.add(it) }
+            .subscribeWithLiveDataState(liveData)
+            .also { this.disposables.add(it) }
     }
 
     fun setNextPage() {
