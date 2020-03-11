@@ -1,6 +1,7 @@
 package br.com.lsm.androidsample.presentation.githubList
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.core.State
 import kotlinx.android.synthetic.main.activity_repository_list.*
+import kotlinx.android.synthetic.main.view_repositories_loading.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
@@ -33,7 +35,15 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         val observer = Observer<State<List<GithubRepo>>> { state ->
             when (state) {
                 is State.Loading -> {
-                    // TODO: Shimmer loading
+                    if (state.isLoading) {
+                        if (viewModel.repositoriesList.isEmpty()) {
+                            shimmerView?.visibility = View.VISIBLE
+                            shimmerView?.startShimmer()
+                        }
+                    } else {
+                        shimmerView?.visibility = View.GONE
+                        shimmerView?.stopShimmer()
+                    }
                 }
                 is State.Success -> {
                     adapter.update(state.data)
