@@ -48,14 +48,14 @@ class LanguagesAdapter(
             itemView.rootViewGroup?.setBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    if (item.isSelected) R.color.white else R.color.black
+                    if (item.isSelected) R.color.material_grey else R.color.black
                 )
             )
 
             itemView.txtName?.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    if (item.isSelected) R.color.black else R.color.white
+                    if (item.isSelected) R.color.black else R.color.material_grey
                 )
             )
         }
