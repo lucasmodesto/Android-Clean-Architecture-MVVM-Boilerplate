@@ -3,6 +3,7 @@ package br.com.lsm.androidsample.presentation.githubList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
@@ -43,6 +44,20 @@ class LanguagesAdapter(
             itemView.imgLogo?.setImageResource(item.imageResId)
             itemView.txtName?.text = itemView.context.getString(item.displayNameResId)
             itemView.setOnClickListener { onItemClick.invoke(item) }
+
+            itemView.rootViewGroup?.setBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (item.isSelected) R.color.white else R.color.black
+                )
+            )
+
+            itemView.txtName?.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (item.isSelected) R.color.black else R.color.white
+                )
+            )
         }
     }
 }

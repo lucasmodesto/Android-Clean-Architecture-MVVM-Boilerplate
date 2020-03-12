@@ -14,9 +14,21 @@ import kotlinx.android.synthetic.main.view_repositories_loading.*
 
 class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
-    private val adapter: GitHubRepositoriesAdapter by lazy {
+    private val repositoriesAdapter: GitHubRepositoriesAdapter by lazy {
         GitHubRepositoriesAdapter(data = viewModel.repositoriesList, itemClick = {
             // TODO: detail screen
+        })
+    }
+
+    private val languagesAdapter: LanguagesAdapter by lazy {
+        LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
+            viewModel.apply {
+                repositoriesAdapter.clear()
+                resetPage()
+                setLanguageFilter(language = it.language)
+                fetchRepositories()
+                languagesAdapter.notifyDataSetChanged()
+            }
         })
     }
 
@@ -46,7 +58,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     }
                 }
                 is State.Success -> {
-                    adapter.update(state.data)
+                    repositoriesAdapter.update(state.data)
                 }
                 is State.Error -> {
                     showErrorMessage(
@@ -61,21 +73,13 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
     }
 
     private fun setupLanguagesRecyclerView() {
-        rvLanguages?.adapter =
-            LanguagesAdapter(data = viewModel.getAvailableLanguages(), onItemClick = {
-                adapter.clear()
-                viewModel.apply {
-                    resetPage()
-                    setLanguageFilter(language = it.language)
-                    fetchRepositories()
-                }
-            })
+        rvLanguages?.adapter = languagesAdapter
         rvLanguages?.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setupRepositoriesRecyclerView() {
-        rvRepositories?.adapter = adapter
+        rvRepositories?.adapter = repositoriesAdapter
         rvRepositories?.layoutManager = LinearLayoutManager(this)
         rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 

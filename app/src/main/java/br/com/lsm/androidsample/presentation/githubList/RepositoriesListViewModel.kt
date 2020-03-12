@@ -20,8 +20,10 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
     private var page: Int = 1
     private var selectedLanguage: Language = Language.Kotlin
     private val liveData = MutableLiveData<State<List<GithubRepo>>>()
-    fun getRepositories(): LiveData<State<List<GithubRepo>>> = liveData
     val repositoriesList = mutableListOf<GithubRepo>()
+    val languagesList = getAvailableLanguages()
+
+    fun getRepositories(): LiveData<State<List<GithubRepo>>> = liveData
 
     fun fetchRepositories() {
         getRepositoriesUseCase.execute(
@@ -46,14 +48,20 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
 
     fun setLanguageFilter(language: Language) {
         this.selectedLanguage = language
+
+        languagesList.forEach { it.isSelected = false }
+        languagesList.find { it.language == language }?.let {
+            it.isSelected = true
+        }
     }
 
-    fun getAvailableLanguages(): List<LanguageViewObject> {
+    private fun getAvailableLanguages(): List<LanguageViewObject> {
         return listOf(
             LanguageViewObject(
                 language = Language.Kotlin,
                 imageResId = R.drawable.ic_language_kotlin,
-                displayNameResId = R.string.language_kotlin
+                displayNameResId = R.string.language_kotlin,
+                isSelected = true
             ),
             LanguageViewObject(
                 language = Language.Swift,
