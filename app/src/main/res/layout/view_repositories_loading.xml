@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone"
-    app:shimmer_base_color="@android:color/white"
-    app:shimmer_highlight_color="@android:color/white"
     tools:visibility="visible">
 
     <LinearLayout
@@ -18,37 +16,38 @@
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/view_github_repository_placeholder"
