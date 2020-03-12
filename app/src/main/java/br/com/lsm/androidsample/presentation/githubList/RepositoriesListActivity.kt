@@ -9,6 +9,7 @@ import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.core.State
+import br.com.lsm.androidsample.presentation.utils.VerticalSpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_repository_list.*
 import kotlinx.android.synthetic.main.view_repositories_loading.*
 
@@ -81,6 +82,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
     private fun setupRepositoriesRecyclerView() {
         rvRepositories?.adapter = repositoriesAdapter
         rvRepositories?.layoutManager = LinearLayoutManager(this)
+        rvRepositories?.addItemDecoration(VerticalSpaceItemDecoration(verticalSpaceInDp = 8))
         rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

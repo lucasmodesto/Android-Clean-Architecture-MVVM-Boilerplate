@@ -111,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:maxLines="1"
                     android:textAlignment="center"
                     android:textColor="@android:color/holo_blue_dark"
                     android:textStyle="bold"
