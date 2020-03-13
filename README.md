@@ -1,1 +1,1 @@
-# Android-MVVM-Sample
+# Android-Clean-Architecture-MVVM-Boilerplate
