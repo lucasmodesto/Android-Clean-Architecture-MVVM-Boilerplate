@@ -1,2 +1,4 @@
-include ':app'
+include ':presentation'
 rootProject.name='Android Sample MVVM'
+include ':data'
+include ':domain'
