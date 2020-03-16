@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.di
+package br.com.lsm.androidsample.domain.di
 
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesUseCase
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
