@@ -23,13 +23,13 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
     private val languagesAdapter: LanguagesAdapter by lazy {
         LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
+            repositoriesAdapter.clear()
             viewModel.apply {
-                repositoriesAdapter.clear()
                 resetPage()
                 setLanguageFilter(language = it.language)
                 fetchRepositories()
-                languagesAdapter.notifyDataSetChanged()
             }
+            languagesAdapter.notifyDataSetChanged()
         })
     }
 
