@@ -20,11 +20,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "GITHUB_API_URL", "\"https://api.github.com/graphql\""
-            buildConfigField "String", "GITHUB_API_TOKEN", "\"7cc6acf259025a2e8187f20113ec9fdb8b9bf49d\""
+            buildConfigField "String", "GITHUB_API_TOKEN", "\"\""
         }
         debug {
             buildConfigField "String", "GITHUB_API_URL", "\"https://api.github.com/graphql\""
-            buildConfigField "String", "GITHUB_API_TOKEN", "\"7cc6acf259025a2e8187f20113ec9fdb8b9bf49d\""
+            buildConfigField "String", "GITHUB_API_TOKEN", "\"\""
         }
     }
 
