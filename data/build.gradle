@@ -1,18 +1,25 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply plugin: 'com.apollographql.apollo'
+
+apollo {
+    generateKotlinModels.set(true)
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':domain')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    // Di
     implementation 'org.koin:koin-core:2.0.1'
 
     // Network
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+    implementation("com.apollographql.apollo:apollo-android-support:1.3.3")
+    implementation("com.apollographql.apollo:apollo-runtime:1.3.3")
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    compileOnly("org.jetbrains:annotations:13.0")
+    testCompileOnly("org.jetbrains:annotations:13.0")
 
     // Reactive
     implementation 'io.reactivex.rxjava2:rxjava:2.2.17'

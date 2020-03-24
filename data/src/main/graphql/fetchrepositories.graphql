@@ -1,0 +1,13 @@
+query fetchRepositories($query: String!) {
+  search(query: $query, type: REPOSITORY) {
+    repositoryCount
+    nodes {
+      ... on Repository {
+        nameWithOwner
+        stargazers {
+          totalCount
+        }
+      }
+    }
+  }
+}

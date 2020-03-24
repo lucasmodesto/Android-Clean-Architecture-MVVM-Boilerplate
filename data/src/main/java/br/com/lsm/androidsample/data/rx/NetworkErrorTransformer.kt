@@ -18,23 +18,23 @@ class NetworkErrorTransformer<T> : SingleTransformer<T, T> {
         return when (error) {
 
             is UnknownHostException -> {
-                Single.error<T>(NetworkError.NotConnected())
+                Single.error(NetworkError.NotConnected())
             }
 
             is SocketTimeoutException -> {
-                Single.error<T>(NetworkError.SlowConnection())
+                Single.error(NetworkError.SlowConnection())
             }
 
             is IOException -> {
                 if (error.message?.contentEquals("Canceled") == true) {
-                    Single.error<T>(NetworkError.Canceled())
+                    Single.error(NetworkError.Canceled())
                 } else {
-                    Single.error<T>(error)
+                    Single.error(error)
                 }
             }
 
             else -> {
-                Single.error<T>(error)
+                Single.error(error)
             }
         }
     }

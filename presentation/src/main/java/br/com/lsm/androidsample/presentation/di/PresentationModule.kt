@@ -19,5 +19,6 @@ object PresentationModule {
 
     val configModule = module {
         single(named(name = Constants.BASE_API_URL)) { BuildConfig.GITHUB_API_URL }
+        single(named(name = Constants.GITHUB_TOKEN)) { BuildConfig.GITHUB_API_TOKEN }
     }
 }
