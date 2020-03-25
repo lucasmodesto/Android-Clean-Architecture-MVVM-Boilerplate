@@ -1,4 +1,4 @@
-# Architecture Boilerplate sample App
+# Architecture boilerplate sample app
 Android MVVM sample with Clean Architecture concepts
 
 # Libraries and tools
