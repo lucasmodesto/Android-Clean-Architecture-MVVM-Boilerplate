@@ -10,15 +10,15 @@ Android MVVM sample with Clean Architecture concepts
 - [Shimmer](https://github.com/facebook/shimmer-android)
 
 # TODO items
-- Unit tests
-- Instrumented tests
-- Search feature
-- Sort filters feature
-- Animations
-- Cache
-- Logger
-- Lint
-- CI
+- [ ] Unit tests
+- [ ] Instrumented tests
+- [ ] Search feature
+- [ ] Sort filters feature
+- [ ] Animations
+- [ ] Cache
+- [ ] Logger
+- [ ] Lint
+- [ ] CI
 
 # Contributors
 - [David Pedroza](https://github.com/dpedroza)
