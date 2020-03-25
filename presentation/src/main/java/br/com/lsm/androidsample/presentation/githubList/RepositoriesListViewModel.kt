@@ -13,37 +13,33 @@ import br.com.lsm.androidsample.presentation.extensions.defaultSchedulers
 import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
 import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import br.com.lsm.androidsample.R
+import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
+import br.com.lsm.androidsample.domain.entity.PaginationData
 
 class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetRepositoriesUseCase) :
     BaseViewModel() {
 
-    private var page: Int = 1
     private var selectedLanguage: Language = Language.Kotlin
-    private val liveData = MutableLiveData<State<List<GithubRepo>>>()
+    private val liveData = MutableLiveData<State<FetchRepositoriesResult>>()
     val repositoriesList = mutableListOf<GithubRepo>()
     val languagesList = getAvailableLanguages()
+    var paginationData: PaginationData? = null
 
-    fun getRepositories(): LiveData<State<List<GithubRepo>>> = liveData
+    fun getRepositories(): LiveData<State<FetchRepositoriesResult>> = liveData
 
     fun fetchRepositories() {
+        if (paginationData?.hasNextPage == false) return
         getRepositoriesUseCase.execute(
-                GetRepositoriesInput(
-                    language = selectedLanguage,
-                    page = page
-                )
+            GetRepositoriesInput(
+                language = selectedLanguage,
+                paginationCursor = paginationData?.endCursor
             )
+        )
             .defaultSchedulers()
+            .doOnSuccess { this.paginationData = it.paginationData }
             .composeErrorTransformers()
             .subscribeWithLiveDataState(liveData)
             .also { this.disposables.add(it) }
-    }
-
-    fun setNextPage() {
-        this.page++
-    }
-
-    fun resetPage() {
-        this.page = 1
     }
 
     fun setLanguageFilter(language: Language) {

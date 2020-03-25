@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
+import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.core.State
@@ -25,7 +26,6 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
             repositoriesAdapter.clear()
             viewModel.apply {
-                resetPage()
                 setLanguageFilter(language = it.language)
                 fetchRepositories()
             }
@@ -45,7 +45,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
     }
 
     private fun setLiveDataObserver() {
-        val observer = Observer<State<List<GithubRepo>>> { state ->
+        val observer = Observer<State<FetchRepositoriesResult>> { state ->
             when (state) {
                 is State.Loading -> {
                     if (state.isLoading) {
@@ -59,7 +59,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     }
                 }
                 is State.Success -> {
-                    repositoriesAdapter.update(state.data)
+                    repositoriesAdapter.update(state.data.repositories)
                 }
                 is State.Error -> {
                     showErrorMessage(
@@ -91,7 +91,6 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                 if (!recyclerView.canScrollVertically(1) &&
                     newState == RecyclerView.SCROLL_STATE_IDLE
                 ) {
-                    viewModel.setNextPage()
                     viewModel.fetchRepositories()
                 }
             }

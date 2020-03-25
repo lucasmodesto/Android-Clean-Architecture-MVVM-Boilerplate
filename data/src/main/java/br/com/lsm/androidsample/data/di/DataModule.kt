@@ -1,6 +1,8 @@
 package br.com.lsm.androidsample.data.di
 
+import br.com.lsm.androidsample.data.network.ApolloRxClient
 import br.com.lsm.androidsample.data.network.AuthenticationInterceptor
+import br.com.lsm.androidsample.data.network.IApolloRxClient
 import br.com.lsm.androidsample.data.network.NetworkClientProvider
 import br.com.lsm.androidsample.data.repository.GitHubRepository
 import br.com.lsm.androidsample.domain.repository.IGitHubRepository
@@ -27,8 +29,12 @@ object DataModule {
             )
         }
 
+        single<IApolloRxClient> {
+            ApolloRxClient(apolloClient = get())
+        }
+
         single<IGitHubRepository> {
-            GitHubRepository(apolloClient = get())
+            GitHubRepository(graphQlClient = get())
         }
     }
 }

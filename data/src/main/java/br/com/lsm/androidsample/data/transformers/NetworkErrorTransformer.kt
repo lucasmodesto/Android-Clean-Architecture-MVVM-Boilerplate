@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.data.rx
+package br.com.lsm.androidsample.data.transformers
 
 import br.com.lsm.androidsample.data.errors.NetworkError
 import io.reactivex.Single
