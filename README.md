@@ -14,6 +14,7 @@ Android MVVM sample with Clean Architecture concepts
 - Instrumented tests
 - Search feature
 - Sort filters feature
+- Animations
 - Cache
 - Logger
 - Lint
