@@ -26,6 +26,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
             repositoriesAdapter.clear()
             viewModel.apply {
+                resetPage()
                 setLanguageFilter(language = it.language)
                 fetchRepositories()
             }

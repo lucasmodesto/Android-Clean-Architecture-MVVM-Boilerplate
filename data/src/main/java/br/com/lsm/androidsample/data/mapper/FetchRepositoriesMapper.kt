@@ -9,12 +9,11 @@ object FetchRepositoriesMapper {
         return GithubRepo(
             name = response.name,
             description = response.description.orEmpty(),
-            forks = 0,
+            forks = response.forkCount,
             stars = response.stargazers.totalCount,
             owner = Owner(
-                name = response.owner.login,
                 avatarUrl = response.owner.avatarUrl.toString(),
-                username = "TODO"
+                username = response.owner.login
             )
         )
     }

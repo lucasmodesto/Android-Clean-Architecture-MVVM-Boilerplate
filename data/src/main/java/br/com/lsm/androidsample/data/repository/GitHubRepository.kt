@@ -9,7 +9,7 @@ import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.entity.PaginationData
 import br.com.lsm.androidsample.domain.repository.IGitHubRepository
 import com.apollographql.apollo.api.Input
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 class GitHubRepository(private val graphQlClient: IApolloRxClient) : IGitHubRepository {
 
@@ -17,7 +17,6 @@ class GitHubRepository(private val graphQlClient: IApolloRxClient) : IGitHubRepo
         language: Language,
         paginationCursor: String?
     ): Single<FetchRepositoriesResult> {
-
         return graphQlClient.query(
             FetchRepositoriesQuery(
                 query = String.format(

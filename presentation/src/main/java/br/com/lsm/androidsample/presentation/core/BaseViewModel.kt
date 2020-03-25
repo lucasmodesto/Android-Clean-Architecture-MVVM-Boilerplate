@@ -1,7 +1,7 @@
 package br.com.lsm.androidsample.presentation.core
 
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseViewModel : ViewModel() {
 

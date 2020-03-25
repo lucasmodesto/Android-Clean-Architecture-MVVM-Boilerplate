@@ -6,6 +6,7 @@ query fetchRepositories($query: String!, $cursor: String) {
         id
         name
         description
+        forkCount
         stargazers {
           totalCount
         }

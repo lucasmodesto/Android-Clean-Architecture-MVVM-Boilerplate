@@ -1,9 +1,9 @@
 package br.com.lsm.androidsample.data.transformers
 
 import br.com.lsm.androidsample.data.errors.NetworkError
-import io.reactivex.Single
-import io.reactivex.SingleSource
-import io.reactivex.SingleTransformer
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleSource
+import io.reactivex.rxjava3.core.SingleTransformer
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -38,6 +38,4 @@ class NetworkErrorTransformer<T> : SingleTransformer<T, T> {
             }
         }
     }
-
-
 }

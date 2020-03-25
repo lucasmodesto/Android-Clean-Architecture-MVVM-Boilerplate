@@ -28,20 +28,10 @@
                     tools:text="Nome do repositório" />
 
                 <TextView
-                    android:id="@+id/txtOwnerFullName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="start"
-                    android:textAlignment="viewStart"
-                    android:textSize="12sp"
-                    tools:text="Nome Sobrenome Nome Sobrenome" />
-
-                <TextView
                     android:id="@+id/txtRepositoryDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:textSize="12sp"
@@ -50,7 +40,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <ImageView

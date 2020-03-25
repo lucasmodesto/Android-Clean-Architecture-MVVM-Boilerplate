@@ -21,8 +21,9 @@ dependencies {
     compileOnly("org.jetbrains:annotations:13.0")
     testCompileOnly("org.jetbrains:annotations:13.0")
 
-    // Reactive
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    // ReactiveX
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
 }
 
 sourceCompatibility = "8"

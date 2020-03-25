@@ -77,7 +77,6 @@ class GitHubRepositoriesAdapter(
                 txtRepositoryDescription?.text = item.description
                 txtForkQuantity?.text = item.forks.toString()
                 txtStarQuantity?.text = item.stars.toString()
-                txtOwnerFullName?.text = item.owner.name
                 txtOwnerUsername?.text = item.owner.username
                 Picasso.get().load(item.owner.avatarUrl).into(imgOwner)
                 setOnClickListener { itemClick(item) }

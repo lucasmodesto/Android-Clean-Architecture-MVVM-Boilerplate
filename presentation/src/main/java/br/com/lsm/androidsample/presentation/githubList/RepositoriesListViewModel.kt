@@ -2,28 +2,29 @@ package br.com.lsm.androidsample.presentation.githubList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
 import br.com.lsm.androidsample.presentation.core.State
-import br.com.lsm.androidsample.presentation.extensions.defaultSchedulers
-import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
 import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import br.com.lsm.androidsample.R
+import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.domain.entity.PaginationData
+import br.com.lsm.androidsample.presentation.extensions.defaultSchedulers
+import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
 
-class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetRepositoriesUseCase) :
-    BaseViewModel() {
+class RepositoriesListViewModel(
+    private val getRepositoriesUseCase: IGetRepositoriesUseCase
+) : BaseViewModel() {
 
     private var selectedLanguage: Language = Language.Kotlin
     private val liveData = MutableLiveData<State<FetchRepositoriesResult>>()
+    private var paginationData: PaginationData? = null
     val repositoriesList = mutableListOf<GithubRepo>()
     val languagesList = getAvailableLanguages()
-    var paginationData: PaginationData? = null
 
     fun getRepositories(): LiveData<State<FetchRepositoriesResult>> = liveData
 
@@ -49,6 +50,10 @@ class RepositoriesListViewModel(private val getRepositoriesUseCase: IGetReposito
         languagesList.find { it.language == language }?.let {
             it.isSelected = true
         }
+    }
+
+    fun resetPage() {
+        this.paginationData = null
     }
 
     private fun getAvailableLanguages(): List<LanguageViewObject> {

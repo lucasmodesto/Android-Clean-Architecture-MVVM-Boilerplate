@@ -6,7 +6,7 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 class ApolloRxClient(private val apolloClient: ApolloClient) : IApolloRxClient {
 
