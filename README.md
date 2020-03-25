@@ -20,6 +20,6 @@ Android MVVM sample with Clean Architecture concepts
 - Lint
 - CI
 
-# Contributors:
+# Contributors
 - [David Pedroza](https://github.com/dpedroza)
 - [Ricarlo Silva](https://github.com/ricarlo-silva)
