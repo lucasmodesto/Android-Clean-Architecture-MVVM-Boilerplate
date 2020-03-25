@@ -37,7 +37,9 @@ class RepositoriesListViewModel(
             )
         )
             .defaultSchedulers()
-            .doOnSuccess { this.paginationData = it.paginationData }
+            .doOnSuccess {
+                this.paginationData = it.paginationData
+            }
             .composeErrorTransformers()
             .subscribeWithLiveDataState(liveData)
             .also { this.disposables.add(it) }

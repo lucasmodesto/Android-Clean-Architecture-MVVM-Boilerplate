@@ -21,6 +21,8 @@ class GitHubRepositoriesAdapter(
         private const val VIEW_TYPE_LOAD = 1
     }
 
+    var hasNextPage: Boolean = true
+
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -32,15 +34,13 @@ class GitHubRepositoriesAdapter(
     }
 
     override fun getItemViewType(position: Int) =
-        when (position < itemCount -1) {
+        when (position < itemCount - 1) {
             true -> VIEW_TYPE_ITEM
-            false -> VIEW_TYPE_LOAD
+            false -> if (hasNextPage) VIEW_TYPE_LOAD else VIEW_TYPE_ITEM
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-
         when (viewType) {
-
             VIEW_TYPE_ITEM -> ViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_github_repository,
@@ -54,7 +54,6 @@ class GitHubRepositoriesAdapter(
                     false
                 )
             )
-
             else -> throw IllegalArgumentException("Invalid view type")
         }
 

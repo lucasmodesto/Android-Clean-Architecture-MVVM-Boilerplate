@@ -19,7 +19,7 @@ object NetworkClientProvider {
 
     fun providesOkHttpClient(interceptors: List<Interceptor>): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         interceptors.forEach {
             clientBuilder.addInterceptor(it)
         }

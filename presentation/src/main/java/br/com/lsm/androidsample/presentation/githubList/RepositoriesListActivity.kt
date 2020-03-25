@@ -60,6 +60,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
                     }
                 }
                 is State.Success -> {
+                    repositoriesAdapter.hasNextPage = state.data.paginationData.hasNextPage
                     repositoriesAdapter.update(state.data.repositories)
                 }
                 is State.Error -> {
