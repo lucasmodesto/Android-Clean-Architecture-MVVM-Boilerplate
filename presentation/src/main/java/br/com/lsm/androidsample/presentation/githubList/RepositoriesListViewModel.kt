@@ -36,10 +36,8 @@ class RepositoriesListViewModel(
                 paginationCursor = paginationData?.endCursor
             )
         )
+            .doOnSuccess { this.paginationData = it.paginationData }
             .defaultSchedulers()
-            .doOnSuccess {
-                this.paginationData = it.paginationData
-            }
             .composeErrorTransformers()
             .subscribeWithLiveDataState(liveData)
             .also { this.disposables.add(it) }

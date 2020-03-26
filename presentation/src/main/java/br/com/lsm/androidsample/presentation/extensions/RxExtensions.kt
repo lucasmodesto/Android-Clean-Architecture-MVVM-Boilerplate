@@ -9,9 +9,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 fun <T> Single<T>.subscribeWithLiveDataState(liveData: MutableLiveData<State<T>>): Disposable {
-    return this.doOnSubscribe {
-            liveData.value = State.Loading(isLoading = true)
-        }
+    return this.doOnSubscribe { liveData.value = State.Loading(isLoading = true) }
         .doOnSuccess {
             liveData.value = State.Loading(isLoading = false)
             liveData.value = State.Success(data = it)

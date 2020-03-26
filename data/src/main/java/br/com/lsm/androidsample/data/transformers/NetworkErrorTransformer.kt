@@ -15,7 +15,7 @@ class NetworkErrorTransformer<T> : SingleTransformer<T, T> {
     }
 
     private fun transformNetworkError(error: Throwable): Single<T> {
-        return when (error) {
+        return when (error.cause) {
 
             is UnknownHostException -> {
                 Single.error(NetworkError.NotConnected())
@@ -26,7 +26,7 @@ class NetworkErrorTransformer<T> : SingleTransformer<T, T> {
             }
 
             is IOException -> {
-                if (error.message?.contentEquals("Canceled") == true) {
+                if (error.cause?.message?.contentEquals("Canceled") == true) {
                     Single.error(NetworkError.Canceled())
                 } else {
                     Single.error(error)
