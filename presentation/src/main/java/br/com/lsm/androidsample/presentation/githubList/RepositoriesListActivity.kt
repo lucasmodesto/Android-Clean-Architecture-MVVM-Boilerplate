@@ -24,15 +24,19 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
 
     private val languagesAdapter: LanguagesAdapter by lazy {
         LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
-            repositoriesAdapter.clear()
-            viewModel.apply {
-                resetPage()
-                setLanguageFilter(language = it.language)
-                fetchRepositories()
+            if (!isLoading) {
+                repositoriesAdapter.clear()
+                viewModel.apply {
+                    resetPage()
+                    setLanguageFilter(language = it.language)
+                    fetchRepositories()
+                }
+                languagesAdapter.notifyDataSetChanged()
             }
-            languagesAdapter.notifyDataSetChanged()
         })
     }
+
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
         val observer = Observer<State<FetchRepositoriesResult>> { state ->
             when (state) {
                 is State.Loading -> {
+                    this.isLoading = state.isLoading
                     if (state.isLoading) {
                         if (viewModel.repositoriesList.isEmpty()) {
                             shimmerView?.visibility = View.VISIBLE
