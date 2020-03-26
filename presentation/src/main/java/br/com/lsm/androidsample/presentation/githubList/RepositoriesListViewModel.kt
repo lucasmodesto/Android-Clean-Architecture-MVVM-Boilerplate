@@ -45,10 +45,8 @@ class RepositoriesListViewModel(
 
     fun setLanguageFilter(language: Language) {
         this.selectedLanguage = language
-
-        languagesList.forEach { it.isSelected = false }
-        languagesList.find { it.language == language }?.let {
-            it.isSelected = true
+        languagesList.forEach {
+            it.isSelected = it.language == language
         }
     }
 
