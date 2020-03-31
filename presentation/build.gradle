@@ -51,7 +51,6 @@ dependencies {
     // ReactiveX
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
 
     // Service Locator
     implementation 'org.koin:koin-core:2.0.1'
