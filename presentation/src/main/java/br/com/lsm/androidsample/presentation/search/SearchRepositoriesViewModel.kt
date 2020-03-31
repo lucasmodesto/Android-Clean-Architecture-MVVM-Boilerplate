@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.githubList
+package br.com.lsm.androidsample.presentation.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ import br.com.lsm.androidsample.domain.entity.PaginationData
 import br.com.lsm.androidsample.presentation.extensions.defaultSchedulers
 import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
 
-class RepositoriesListViewModel(
+class SearchRepositoriesViewModel(
     private val getRepositoriesUseCase: IGetRepositoriesUseCase
 ) : BaseViewModel() {
 

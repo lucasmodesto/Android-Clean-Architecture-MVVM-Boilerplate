@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.githubList
+package br.com.lsm.androidsample.presentation.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_github_repository.view.*
 import kotlinx.android.synthetic.main.item_load_progress.view.*
 import java.lang.IllegalArgumentException
 
-class GitHubRepositoriesAdapter(
+class RepositoryAdapter(
     private val data: MutableList<GithubRepo>,
     private val itemClick: (GithubRepo) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

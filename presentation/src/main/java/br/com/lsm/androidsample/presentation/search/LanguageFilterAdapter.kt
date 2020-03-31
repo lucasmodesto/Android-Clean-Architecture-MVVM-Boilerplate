@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.githubList
+package br.com.lsm.androidsample.presentation.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +9,10 @@ import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import kotlinx.android.synthetic.main.item_language.view.*
 
-class LanguagesAdapter(
+class LanguageFilterAdapter(
     private val data: List<LanguageViewObject>,
     private val onItemClick: (LanguageViewObject) -> Unit
-) : RecyclerView.Adapter<LanguagesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LanguageFilterAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

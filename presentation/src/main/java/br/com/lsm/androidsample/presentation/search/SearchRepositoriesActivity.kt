@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.githubList
+package br.com.lsm.androidsample.presentation.search
 
 import android.os.Bundle
 import android.view.View
@@ -7,23 +7,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
-import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.presentation.core.BaseActivity
 import br.com.lsm.androidsample.presentation.core.State
 import br.com.lsm.androidsample.presentation.utils.VerticalSpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_repository_list.*
 import kotlinx.android.synthetic.main.view_repositories_loading.*
 
-class RepositoriesListActivity : BaseActivity<RepositoriesListViewModel>() {
+class SearchRepositoriesActivity : BaseActivity<SearchRepositoriesViewModel>() {
 
-    private val repositoriesAdapter: GitHubRepositoriesAdapter by lazy {
-        GitHubRepositoriesAdapter(data = viewModel.repositoriesList, itemClick = {
+    private val repositoriesAdapter: RepositoryAdapter by lazy {
+        RepositoryAdapter(data = viewModel.repositoriesList, itemClick = {
             // TODO: detail screen
         })
     }
 
-    private val languagesAdapter: LanguagesAdapter by lazy {
-        LanguagesAdapter(data = viewModel.languagesList, onItemClick = {
+    private val languagesAdapter: LanguageFilterAdapter by lazy {
+        LanguageFilterAdapter(data = viewModel.languagesList, onItemClick = {
             if (!isLoading) {
                 repositoriesAdapter.clear()
                 viewModel.apply {
