@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
-import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import kotlinx.android.synthetic.main.item_language.view.*
 
 class LanguageFilterAdapter(
-    private val data: List<LanguageViewObject>,
-    private val onItemClick: (LanguageViewObject) -> Unit
+    private val data: List<LanguageFilter>,
+    private val onItemClick: (LanguageFilter) -> Unit
 ) : RecyclerView.Adapter<LanguageFilterAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -37,10 +36,10 @@ class LanguageFilterAdapter(
 
     class ViewHolder(
         view: View,
-        private val onItemClick: (LanguageViewObject) -> Unit
+        private val onItemClick: (LanguageFilter) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
-        fun bind(item: LanguageViewObject) {
+        fun bind(item: LanguageFilter) {
             itemView.imgLogo?.setImageResource(item.imageResId)
             itemView.txtName?.text = itemView.context.getString(item.displayNameResId)
             itemView.setOnClickListener { onItemClick.invoke(item) }

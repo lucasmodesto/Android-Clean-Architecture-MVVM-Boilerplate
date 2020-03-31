@@ -1,8 +1,8 @@
-package br.com.lsm.androidsample.presentation.vo
+package br.com.lsm.androidsample.presentation.search
 
 import br.com.lsm.androidsample.domain.entity.Language
 
-data class LanguageViewObject(
+data class LanguageFilter(
     val language: Language,
     val displayNameResId: Int,
     val imageResId: Int,

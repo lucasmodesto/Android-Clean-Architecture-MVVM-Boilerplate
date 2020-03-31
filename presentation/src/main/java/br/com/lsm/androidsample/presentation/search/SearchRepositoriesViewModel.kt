@@ -8,7 +8,6 @@ import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.presentation.core.BaseViewModel
 import br.com.lsm.androidsample.presentation.core.State
-import br.com.lsm.androidsample.presentation.vo.LanguageViewObject
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
@@ -54,50 +53,50 @@ class SearchRepositoriesViewModel(
         this.paginationData = null
     }
 
-    private fun getAvailableLanguages(): List<LanguageViewObject> {
+    private fun getAvailableLanguages(): List<LanguageFilter> {
         return listOf(
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Kotlin,
                 imageResId = R.drawable.ic_language_kotlin,
                 displayNameResId = R.string.language_kotlin,
                 isSelected = true
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Swift,
                 imageResId = R.drawable.ic_language_swift,
                 displayNameResId = R.string.language_swift
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Dart,
                 imageResId = R.drawable.ic_language_dart,
                 displayNameResId = R.string.language_dart
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Java,
                 imageResId = R.drawable.ic_language_java,
                 displayNameResId = R.string.language_java
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.JavaScript,
                 imageResId = R.drawable.ic_language_javascript,
                 displayNameResId = R.string.language_javascript
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.CSharp,
                 imageResId = R.drawable.ic_language_c_sharp,
                 displayNameResId = R.string.language_c_sharp
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Python,
                 imageResId = R.drawable.ic_language_python,
                 displayNameResId = R.string.language_python
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Scala,
                 imageResId = R.drawable.ic_language_scala,
                 displayNameResId = R.string.language_scala
             ),
-            LanguageViewObject(
+            LanguageFilter(
                 language = Language.Ruby,
                 imageResId = R.drawable.ic_language_ruby,
                 displayNameResId = R.string.language_ruby
