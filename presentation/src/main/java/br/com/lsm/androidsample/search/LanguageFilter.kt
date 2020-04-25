@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.search
+package br.com.lsm.androidsample.search
 
 import br.com.lsm.androidsample.domain.entity.Language
 

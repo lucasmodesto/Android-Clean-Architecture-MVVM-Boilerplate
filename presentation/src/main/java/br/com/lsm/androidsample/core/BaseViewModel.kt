@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.core
+package br.com.lsm.androidsample.core
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable

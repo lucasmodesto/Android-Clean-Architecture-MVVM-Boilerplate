@@ -1,7 +1,7 @@
-package br.com.lsm.androidsample.presentation.extensions
+package br.com.lsm.androidsample.extensions
 
 import androidx.lifecycle.MutableLiveData
-import br.com.lsm.androidsample.presentation.core.State
+import br.com.lsm.androidsample.core.State
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.utils
+package br.com.lsm.androidsample.utils
 
 import android.graphics.Rect
 import android.util.TypedValue

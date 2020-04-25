@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.search
+package br.com.lsm.androidsample.search
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.core
+package br.com.lsm.androidsample.core
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat

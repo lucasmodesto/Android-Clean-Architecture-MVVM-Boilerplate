@@ -3,7 +3,7 @@ package br.com.lsm.androidsample
 import android.app.Application
 import br.com.lsm.androidsample.data.di.DataModule
 import br.com.lsm.androidsample.domain.di.DomainModule
-import br.com.lsm.androidsample.presentation.di.PresentationModule
+import br.com.lsm.androidsample.di.PresentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

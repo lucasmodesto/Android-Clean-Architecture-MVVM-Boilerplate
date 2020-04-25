@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.core
+package br.com.lsm.androidsample.core
 
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.data.errors.NetworkError

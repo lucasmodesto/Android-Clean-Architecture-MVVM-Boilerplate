@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.search
+package br.com.lsm.androidsample.search
 
 import android.os.Bundle
 import android.view.View
@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
-import br.com.lsm.androidsample.presentation.core.BaseActivity
-import br.com.lsm.androidsample.presentation.core.State
-import br.com.lsm.androidsample.presentation.utils.VerticalSpaceItemDecoration
+import br.com.lsm.androidsample.core.BaseActivity
+import br.com.lsm.androidsample.core.State
+import br.com.lsm.androidsample.utils.VerticalSpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_repository_list.*
 import kotlinx.android.synthetic.main.view_repositories_loading.*
 

@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.core
+package br.com.lsm.androidsample.core
 
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel

@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.presentation.search
+package br.com.lsm.androidsample.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,22 +6,24 @@ import br.com.lsm.androidsample.domain.entity.GithubRepo
 import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
-import br.com.lsm.androidsample.presentation.core.BaseViewModel
-import br.com.lsm.androidsample.presentation.core.State
+import br.com.lsm.androidsample.core.BaseViewModel
+import br.com.lsm.androidsample.core.State
 import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.domain.entity.PaginationData
-import br.com.lsm.androidsample.presentation.extensions.defaultSchedulers
-import br.com.lsm.androidsample.presentation.extensions.subscribeWithLiveDataState
+import br.com.lsm.androidsample.extensions.subscribeWithLiveDataState
+import br.com.lsm.androidsample.rx.ISchedulerProvider
 
 class SearchRepositoriesViewModel(
-    private val getRepositoriesUseCase: IGetRepositoriesUseCase
+    private val getRepositoriesUseCase: IGetRepositoriesUseCase,
+    private val schedulerProvider: ISchedulerProvider
 ) : BaseViewModel() {
 
     private var selectedLanguage: Language = Language.Kotlin
     private val liveData = MutableLiveData<State<FetchRepositoriesResult>>()
     private var paginationData: PaginationData? = null
+
     val repositoriesList = mutableListOf<GithubRepo>()
     val languagesList = getAvailableLanguages()
 
@@ -36,7 +38,8 @@ class SearchRepositoriesViewModel(
             )
         )
             .doOnSuccess { this.paginationData = it.paginationData }
-            .defaultSchedulers()
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .composeErrorTransformers()
             .subscribeWithLiveDataState(liveData)
             .also { this.disposables.add(it) }
