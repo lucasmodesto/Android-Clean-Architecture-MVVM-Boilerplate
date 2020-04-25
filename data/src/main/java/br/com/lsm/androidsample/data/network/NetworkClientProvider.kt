@@ -18,11 +18,13 @@ object NetworkClientProvider {
     }
 
     fun providesOkHttpClient(interceptors: List<Interceptor>): OkHttpClient {
-        val clientBuilder = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        interceptors.forEach {
-            clientBuilder.addInterceptor(it)
-        }
-        return clientBuilder.build()
+        return OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
+            .apply {
+                interceptors.forEach { addInterceptor(it) }
+            }.build()
     }
 }
