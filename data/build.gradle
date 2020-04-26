@@ -9,21 +9,19 @@ apollo {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':domain')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation deps.kotlin.jdk
+    implementation deps.koin.core
+    implementation deps.rx.core
 
-    // Di
-    implementation 'org.koin:koin-core:2.1.5'
+    implementation deps.apollo.runtime
+    implementation deps.okhttp.interceptor
+    compileOnly deps.jetbrains.annotations
 
-    // Network
-    implementation("com.apollographql.apollo:apollo-android-support:1.4.4")
-    implementation("com.apollographql.apollo:apollo-runtime:1.4.4")
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
-    compileOnly("org.jetbrains:annotations:13.0")
-    testCompileOnly("org.jetbrains:annotations:13.0")
-
-    // ReactiveX
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    testImplementation deps.mockk.core
+    testImplementation deps.google.truth
+    testImplementation deps.test.junit
+    testCompileOnly deps.jetbrains.annotations
 }
 
-sourceCompatibility = "8"
-targetCompatibility = "8"
+sourceCompatibility = versions.javaVersion
+targetCompatibility = versions.javaVersion

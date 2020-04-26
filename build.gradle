@@ -1,5 +1,8 @@
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    apply from: 'dependencies.gradle'
+
+    ext.kotlin_version = versions.kotlin
+
     repositories {
         google()
         jcenter()
@@ -7,8 +10,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath("com.apollographql.apollo:apollo-gradle-plugin:1.4.4")
+        classpath deps.kotlin.plugin
+        classpath deps.apollo.plugin
     }
 }
 
