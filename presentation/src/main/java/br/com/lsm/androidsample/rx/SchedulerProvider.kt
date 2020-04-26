@@ -1,20 +1,21 @@
 package br.com.lsm.androidsample.rx
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class TrampolineSchedulersProvider : ISchedulerProvider {
+class SchedulerProvider : ISchedulerProvider {
 
     override fun io(): Scheduler {
-        return Schedulers.trampoline()
+        return Schedulers.io()
     }
 
     override fun computation(): Scheduler {
-        return Schedulers.trampoline()
+        return Schedulers.computation()
     }
 
     override fun ui(): Scheduler {
-        return Schedulers.trampoline()
+        return AndroidSchedulers.mainThread()
     }
 
 }

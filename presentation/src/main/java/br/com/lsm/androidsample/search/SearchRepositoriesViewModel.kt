@@ -12,6 +12,7 @@ import br.com.lsm.androidsample.R
 import br.com.lsm.androidsample.data.extensions.composeErrorTransformers
 import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.domain.entity.PaginationData
+import br.com.lsm.androidsample.extensions.applyDefaultSchedulers
 import br.com.lsm.androidsample.extensions.subscribeWithLiveDataState
 import br.com.lsm.androidsample.rx.ISchedulerProvider
 
@@ -38,8 +39,7 @@ class SearchRepositoriesViewModel(
             )
         )
             .doOnSuccess { this.paginationData = it.paginationData }
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
+            .applyDefaultSchedulers(schedulerProvider)
             .composeErrorTransformers()
             .subscribeWithLiveDataState(liveData)
             .also { this.disposables.add(it) }

@@ -5,7 +5,7 @@ import br.com.lsm.androidsample.data.di.DataModule
 import br.com.lsm.androidsample.domain.di.DomainModule
 import br.com.lsm.androidsample.di.PresentationModule
 import br.com.lsm.androidsample.rx.ISchedulerProvider
-import br.com.lsm.androidsample.rx.TrampolineSchedulersProvider
+import br.com.lsm.androidsample.rx.TrampolineSchedulerProvider
 import org.junit.Rule
 import org.koin.core.KoinApplication
 import org.koin.core.logger.Level
@@ -34,7 +34,7 @@ abstract class BaseTest : KoinTest {
         )
         modules(module {
             single<ISchedulerProvider>(override = true) {
-                TrampolineSchedulersProvider()
+                TrampolineSchedulerProvider()
             }
         })
         modules(moduleConfig.invoke(this))

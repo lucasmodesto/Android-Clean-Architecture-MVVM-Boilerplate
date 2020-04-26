@@ -2,6 +2,8 @@ package br.com.lsm.androidsample.extensions
 
 import androidx.lifecycle.MutableLiveData
 import br.com.lsm.androidsample.core.State
+import br.com.lsm.androidsample.rx.ISchedulerProvider
+import br.com.lsm.androidsample.rx.SchedulerProvider
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -27,14 +29,15 @@ fun <T> Observable<T>.subscribeWithLiveDataState(liveData: MutableLiveData<State
         .subscribe({}, {})
 }
 
-fun <T> Observable<T>.defaultSchedulers(): Observable<T> {
+fun <T> Single<T>.applyDefaultSchedulers(schedulerProvider: ISchedulerProvider): Single<T> {
     return this
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(schedulerProvider.io())
+        .observeOn(schedulerProvider.ui())
 }
 
-fun <T> Single<T>.defaultSchedulers(): Single<T> {
+fun <T> Observable<T>.applyDefaultSchedulers(schedulerProvider: ISchedulerProvider): Observable<T> {
     return this
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(schedulerProvider.io())
+        .observeOn(schedulerProvider.ui())
 }
+

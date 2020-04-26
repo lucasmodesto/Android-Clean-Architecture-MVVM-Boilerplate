@@ -1,4 +1,4 @@
-package br.com.lsm.androidsample.core
+package br.com.lsm.androidsample.rx
 
 import br.com.lsm.androidsample.rx.ISchedulerProvider
 import io.reactivex.rxjava3.core.Scheduler
