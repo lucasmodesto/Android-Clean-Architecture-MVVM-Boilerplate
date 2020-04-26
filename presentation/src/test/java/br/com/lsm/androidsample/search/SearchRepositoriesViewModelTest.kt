@@ -72,16 +72,16 @@ class SearchRepositoriesViewModelTest : BaseTest() {
 
         val showLoadingState = slots[0] as State.Loading
         val hideLoadingState = slots[1] as State.Loading
-        val successState = slots[2] as State.Error
+        val errorState = slots[2] as State.Error
 
         Truth.assertThat(showLoadingState.isLoading)
         Truth.assertThat(!hideLoadingState.isLoading)
-        Truth.assertThat(successState.error).isEqualTo(error)
+        Truth.assertThat(errorState.error).isEqualTo(error)
         Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
     }
 
     @Test
-    fun `should not call use case when its last page`() {
+    fun `should not fetch repositories when its last page`() {
         viewModel.paginationData = PaginationData(
             hasNextPage = false,
             endCursor = null
