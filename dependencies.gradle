@@ -69,5 +69,7 @@ ext.deps = [
 
         jetbrains : [
                 annotations : "org.jetbrains:annotations:13.0"
-        ]
+        ],
+
+        jacoco: "com.dicedmelon.gradle:jacoco-android:0.1.4"
 ]
