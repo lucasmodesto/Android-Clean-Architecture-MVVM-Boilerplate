@@ -90,6 +90,8 @@ class SearchRepositoriesViewModelTest : BaseTest() {
         verify {
             getRepositoriesUseCaseMock wasNot Called
         }
+
+        Truth.assertThat(viewModel.disposables.size() == 0).isTrue()
     }
 
     @Test
@@ -103,7 +105,7 @@ class SearchRepositoriesViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `should set language filter flag unique value on language list`() {
+    fun `should set selected language filter flag unique value on language list`() {
         viewModel.setLanguageFilter(Language.Dart)
         Truth.assertThat(viewModel.languagesList.find { it.language == Language.Dart }?.isSelected).isTrue()
         Truth.assertThat(viewModel.languagesList.filter { it.isSelected }.size == 1).isTrue()
