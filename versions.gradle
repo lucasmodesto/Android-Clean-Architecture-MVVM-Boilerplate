@@ -11,5 +11,5 @@ ext.versions = [
         versionCode      : 1,
         versionName      : '1.0.0',
         javaVersion      : JavaVersion.VERSION_1_8,
-        mockk            : '1.9.3'
+        mockk            : '1.10.0'
 ]
