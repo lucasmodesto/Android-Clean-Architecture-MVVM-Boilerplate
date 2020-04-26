@@ -5,6 +5,6 @@ import io.mockk.spyk
 
 object TestUtils {
 
-    fun <T> createMockedObserver(): Observer<T> =
+    fun <T> createSpyObserver(): Observer<T> =
         spyk(Observer { })
 }

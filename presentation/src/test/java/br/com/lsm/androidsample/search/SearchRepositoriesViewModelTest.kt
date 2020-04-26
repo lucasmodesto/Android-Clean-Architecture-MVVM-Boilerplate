@@ -27,7 +27,7 @@ class SearchRepositoriesViewModelTest : BaseTest() {
 
     @Test
     fun `test fetchRepositories success behavior`() {
-        val observerMock = TestUtils.createMockedObserver<State<FetchRepositoriesResult>>()
+        val observerMock = TestUtils.createSpyObserver<State<FetchRepositoriesResult>>()
         viewmodel.getRepositories().observeForever(observerMock)
 
         val data = mockk<FetchRepositoriesResult>(relaxed = true)
