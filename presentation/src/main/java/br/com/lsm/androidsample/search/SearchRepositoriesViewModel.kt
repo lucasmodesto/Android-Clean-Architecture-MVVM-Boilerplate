@@ -1,5 +1,6 @@
 package br.com.lsm.androidsample.search
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.lsm.androidsample.domain.entity.GithubRepo
@@ -23,10 +24,12 @@ class SearchRepositoriesViewModel(
 
     private var selectedLanguage: Language = Language.Kotlin
     private val liveData = MutableLiveData<State<FetchRepositoriesResult>>()
-    private var paginationData: PaginationData? = null
 
     val repositoriesList = mutableListOf<GithubRepo>()
     val languagesList = getAvailableLanguages()
+
+    @VisibleForTesting
+    var paginationData: PaginationData? = null
 
     fun getRepositories(): LiveData<State<FetchRepositoriesResult>> = liveData
 

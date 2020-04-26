@@ -16,7 +16,7 @@ import org.koin.test.inject
 
 class SearchRepositoriesViewModelTest : BaseTest() {
 
-    private val viewmodel: SearchRepositoriesViewModel by inject()
+    private val viewModel: SearchRepositoriesViewModel by inject()
     private val getRepositoriesUseCaseMock: IGetRepositoriesUseCase by inject()
 
     override val moduleConfig: (KoinApplication) -> Module = {
@@ -26,14 +26,14 @@ class SearchRepositoriesViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test fetchRepositories success behavior`() {
+    fun `fetchRepositories success behavior`() {
         val observerMock = TestUtils.createSpyObserver<State<FetchRepositoriesResult>>()
-        viewmodel.getRepositories().observeForever(observerMock)
+        viewModel.getRepositories().observeForever(observerMock)
 
         val data = mockk<FetchRepositoriesResult>(relaxed = true)
 
         every { getRepositoriesUseCaseMock.execute(any()) } returns Single.just(data)
-        viewmodel.fetchRepositories()
+        viewModel.fetchRepositories()
 
         verify {
             getRepositoriesUseCaseMock.execute(any())
@@ -49,5 +49,63 @@ class SearchRepositoriesViewModelTest : BaseTest() {
         Truth.assertThat(showLoadingState.isLoading)
         Truth.assertThat(!hideLoadingState.isLoading)
         Truth.assertThat(successState.data).isEqualTo(data)
+        Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
+        Truth.assertThat(viewModel.paginationData).isNotNull()
+    }
+
+    @Test
+    fun `fetchRepositories error behavior`() {
+        val observerMock = TestUtils.createSpyObserver<State<FetchRepositoriesResult>>()
+        viewModel.getRepositories().observeForever(observerMock)
+
+        val error = Exception()
+
+        every { getRepositoriesUseCaseMock.execute(any()) } returns Single.error(error)
+        viewModel.fetchRepositories()
+
+        verify {
+            getRepositoriesUseCaseMock.execute(any())
+        }
+
+        val slots = mutableListOf<State<FetchRepositoriesResult>>()
+        verify { observerMock.onChanged(capture(slots)) }
+
+        val showLoadingState = slots[0] as State.Loading
+        val hideLoadingState = slots[1] as State.Loading
+        val successState = slots[2] as State.Error
+
+        Truth.assertThat(showLoadingState.isLoading)
+        Truth.assertThat(!hideLoadingState.isLoading)
+        Truth.assertThat(successState.error).isEqualTo(error)
+        Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
+    }
+
+    @Test
+    fun `should not call use case when its last page`() {
+        viewModel.paginationData = PaginationData(
+            hasNextPage = false,
+            endCursor = null
+        )
+        viewModel.fetchRepositories()
+        verify {
+            getRepositoriesUseCaseMock wasNot Called
+        }
+    }
+
+    @Test
+    fun `should set null on pagination data when reset page`() {
+        viewModel.paginationData = PaginationData(
+            hasNextPage = false,
+            endCursor = null
+        )
+        viewModel.resetPage()
+        Truth.assertThat(viewModel.paginationData).isNull()
+    }
+
+    @Test
+    fun `should set language filter flag unique value on language list`() {
+        viewModel.setLanguageFilter(Language.Dart)
+        Truth.assertThat(viewModel.languagesList.find { it.language == Language.Dart }?.isSelected).isTrue()
+        Truth.assertThat(viewModel.languagesList.filter { it.isSelected }.size == 1).isTrue()
     }
 }
