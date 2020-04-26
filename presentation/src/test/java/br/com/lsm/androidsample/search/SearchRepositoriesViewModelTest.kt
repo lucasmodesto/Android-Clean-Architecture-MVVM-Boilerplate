@@ -30,24 +30,7 @@ class SearchRepositoriesViewModelTest : BaseTest() {
         val observerMock = TestUtils.createMockedObserver<State<FetchRepositoriesResult>>()
         viewmodel.getRepositories().observeForever(observerMock)
 
-        val data = FetchRepositoriesResult(
-            repositories = listOf(
-                GithubRepo(
-                    name = "name",
-                    stars = 0,
-                    forks = 0,
-                    description = "",
-                    owner = Owner(
-                        username = "username",
-                        avatarUrl = "url"
-                    )
-                )
-            ),
-            paginationData = PaginationData(
-                hasNextPage = true,
-                endCursor = null
-            )
-        )
+        val data = mockk<FetchRepositoriesResult>(relaxed = true)
 
         every { getRepositoriesUseCaseMock.execute(any()) } returns Single.just(data)
         viewmodel.fetchRepositories()
