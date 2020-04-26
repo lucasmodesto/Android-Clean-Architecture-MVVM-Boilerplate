@@ -1,4 +1,3 @@
-rootProject.name='Android Sample MVVM'
 include ':presentation'
 include ':data'
 include ':domain'
