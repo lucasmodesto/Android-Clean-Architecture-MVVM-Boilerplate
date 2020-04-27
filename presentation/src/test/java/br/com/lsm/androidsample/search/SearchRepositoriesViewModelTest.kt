@@ -10,7 +10,6 @@ import io.mockk.*
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Test
-import org.koin.core.module.Module
 import org.koin.test.inject
 
 class SearchRepositoriesViewModelTest : BaseUnitTest() {
@@ -46,8 +45,8 @@ class SearchRepositoriesViewModelTest : BaseUnitTest() {
         val hideLoadingState = slots[1] as State.Loading
         val successState = slots[2] as State.Success
 
-        Truth.assertThat(showLoadingState.isLoading)
-        Truth.assertThat(!hideLoadingState.isLoading)
+        Truth.assertThat(showLoadingState.isLoading).isTrue()
+        Truth.assertThat(hideLoadingState.isLoading).isFalse()
         Truth.assertThat(successState.data).isEqualTo(data)
         Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
         Truth.assertThat(viewModel.paginationData).isNotNull()
@@ -74,8 +73,8 @@ class SearchRepositoriesViewModelTest : BaseUnitTest() {
         val hideLoadingState = slots[1] as State.Loading
         val errorState = slots[2] as State.Error
 
-        Truth.assertThat(showLoadingState.isLoading)
-        Truth.assertThat(!hideLoadingState.isLoading)
+        Truth.assertThat(showLoadingState.isLoading).isTrue()
+        Truth.assertThat(hideLoadingState.isLoading).isFalse()
         Truth.assertThat(errorState.error).isEqualTo(error)
         Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
     }
