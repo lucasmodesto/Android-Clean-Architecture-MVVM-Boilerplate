@@ -8,9 +8,12 @@ import br.com.lsm.androidsample.core.State
 import com.google.common.truth.Truth
 import io.mockk.*
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers.single
 import org.junit.Test
+import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module
+import org.koin.dsl.ModuleDeclaration
 import org.koin.dsl.module
 import org.koin.test.inject
 
@@ -19,10 +22,8 @@ class SearchRepositoriesViewModelTest : BaseTest() {
     private val viewModel: SearchRepositoriesViewModel by inject()
     private val getRepositoriesUseCaseMock: IGetRepositoriesUseCase by inject()
 
-    override val moduleConfig: (KoinApplication) -> Module = {
-        module {
-            single<IGetRepositoriesUseCase>(override = true) { mockk() }
-        }
+    override val koinModuleDeclaration: Module.() -> Unit = {
+        single<IGetRepositoriesUseCase>(override = true) { mockk() }
     }
 
     @Test
