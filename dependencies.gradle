@@ -23,11 +23,22 @@ ext.deps = [
                 core            : 'androidx.core:core-ktx:1.2.0',
                 constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
                 annotation      : "androidx.annotation:annotation:1.1.0",
+                espresso        : [
+                        core    : "androidx.test.espresso:espresso-core:${versions.espresso}",
+                        contrib : "androidx.test.espresso:espresso-contrib:${versions.espresso}",
+                        intents : "androidx.test.espresso:espresso-intents:${versions.espresso}",
+                        accessibility : "androidx.test.espresso:espresso-accessibility:${versions.espresso}",
+                        web     : "androidx.test.espresso:espresso-web:${versions.espresso}",
+                        idlingconcurrent  : "androidx.test.espresso.idling:idling-concurrent:${versions.espresso}",
+                        idlingresource : "androidx.test.espresso:espresso-idling-resource:${versions.espresso}"
+                ],
                 test            : [
+                        core    : "androidx.test:core:1.0.0",
                         junit   : "androidx.test.ext:junit:1.1.1",
-                        espresso: "androidx.test.espresso:espresso-core:3.2.0",
                         arch    : "androidx.arch.core:core-testing:2.1.0",
-                        truth   : "androidx.test.ext:truth:1.2.0"
+                        truth   : "androidx.test.ext:truth:1.2.0",
+                        runner  : "androidx.test:runner:1.1.0",
+                        rules   : "androidx.test:rules:1.1.0"
                 ]
         ],
 
@@ -48,7 +59,8 @@ ext.deps = [
 
         okhttp  : [
                 core         : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
-                interceptor      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
+                interceptor      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
+                idlingresource   : "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
         ],
 
         rx : [

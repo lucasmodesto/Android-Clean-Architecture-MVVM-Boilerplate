@@ -11,19 +11,21 @@ android {
         applicationId "br.com.lsm.androidsample"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode  versions.versionCode
+        versionCode versions.versionCode
         versionName versions.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "GITHUB_API_URL", "\"https://api.github.com/graphql\""
             buildConfigField "String", "GITHUB_API_TOKEN", "\"\""
         }
+
         debug {
             testCoverageEnabled true
             buildConfigField "String", "GITHUB_API_URL", "\"https://api.github.com/graphql\""
@@ -40,6 +42,13 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+    }
 }
 
 jacoco {
@@ -84,12 +93,24 @@ dependencies {
     implementation deps.facebook.shimmer
 
     // Tests
+    testImplementation deps.test.junit
     testImplementation deps.mockk.core
     testImplementation deps.androidx.test.truth
     testImplementation deps.google.truth
     testImplementation deps.androidx.test.arch
-    testImplementation deps.test.junit
-    androidTestImplementation deps.mockk.android
+
+    androidTestImplementation deps.androidx.test.core
     androidTestImplementation deps.androidx.test.junit
-    androidTestImplementation deps.androidx.test.espresso
+    androidTestImplementation deps.androidx.test.runner
+    androidTestImplementation deps.androidx.test.rules
+    androidTestImplementation deps.androidx.test.truth
+    androidTestImplementation deps.google.truth
+    androidTestImplementation deps.mockk.android
+    androidTestImplementation deps.koin.test
+    androidTestImplementation deps.okhttp.idlingresource
+
+    // Espresso
+    androidTestImplementation deps.androidx.espresso.core
+    androidTestImplementation deps.androidx.espresso.contrib
+    androidTestImplementation deps.androidx.espresso.intents
 }

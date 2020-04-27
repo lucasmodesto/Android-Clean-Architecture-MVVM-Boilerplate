@@ -7,15 +7,18 @@ import br.com.lsm.androidsample.di.PresentationModule
 import br.com.lsm.androidsample.rx.ISchedulerProvider
 import br.com.lsm.androidsample.rx.TrampolineSchedulerProvider
 import org.junit.Rule
+import org.koin.core.context.loadKoinModules
 import org.koin.core.logger.Level
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 
-abstract class BaseTest : KoinTest {
+open class BaseUnitTest : KoinTest {
 
-    abstract val koinModuleDeclaration: Module.() -> Unit
+    protected fun setupKoin(block: Module.() -> Unit) {
+        loadKoinModules(module { block.invoke(this) })
+    }
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -31,9 +34,7 @@ abstract class BaseTest : KoinTest {
                 DataModule.module
             )
         )
-
         modules(module {
-            koinModuleDeclaration.invoke(this)
             single<ISchedulerProvider>(override = true) {
                 TrampolineSchedulerProvider()
             }
