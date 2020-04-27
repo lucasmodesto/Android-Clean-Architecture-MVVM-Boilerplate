@@ -1,7 +1,6 @@
 package br.com.lsm.androidsample.core
 
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResource
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import org.junit.After
 import org.junit.Before
@@ -13,7 +12,7 @@ import org.koin.test.get
 
 open class BaseAndroidTest : KoinTest {
 
-    private lateinit var idlingResource: IdlingResource
+    private val idlingResource = OkHttp3IdlingResource.create("okhttp", get())
 
     protected fun setupKoin(block: Module.() -> Unit) {
         loadKoinModules(module { block.invoke(this) })
@@ -21,7 +20,6 @@ open class BaseAndroidTest : KoinTest {
 
     @Before
     fun before() {
-        idlingResource = OkHttp3IdlingResource.create("okhttp", get())
         IdlingRegistry.getInstance().register(idlingResource)
     }
 
