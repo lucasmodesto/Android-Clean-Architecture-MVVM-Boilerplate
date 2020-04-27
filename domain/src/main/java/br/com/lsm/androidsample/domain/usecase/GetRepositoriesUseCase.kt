@@ -10,7 +10,6 @@ class GetRepositoriesUseCase(private val repository: IGitHubRepository) : IGetRe
         return repository.getRepositories(
             language = params.language,
             paginationCursor = params.paginationCursor
-        ).doOnSuccess { print("Success") }
-            .doOnError { print("Error") }
+        )
     }
 }
