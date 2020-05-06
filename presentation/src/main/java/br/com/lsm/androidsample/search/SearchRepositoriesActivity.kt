@@ -56,11 +56,9 @@ class SearchRepositoriesActivity : BaseActivity<SearchRepositoriesViewModel>() {
                     if (state.isLoading) {
                         if (viewModel.repositoriesList.isEmpty()) {
                             shimmerView?.visibility = View.VISIBLE
-                            shimmerView?.startShimmer()
                         }
                     } else {
                         shimmerView?.visibility = View.GONE
-                        shimmerView?.stopShimmer()
                     }
                 }
                 is State.Success -> {
@@ -80,26 +78,34 @@ class SearchRepositoriesActivity : BaseActivity<SearchRepositoriesViewModel>() {
     }
 
     private fun setupLanguagesRecyclerView() {
-        rvLanguages?.adapter = languagesAdapter
-        rvLanguages?.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rvLanguages?.run {
+            adapter = languagesAdapter
+            layoutManager =
+                LinearLayoutManager(
+                    this@SearchRepositoriesActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+        }
     }
 
     private fun setupRepositoriesRecyclerView() {
-        rvRepositories?.adapter = repositoriesAdapter
-        rvRepositories?.layoutManager = LinearLayoutManager(this)
-        rvRepositories?.addItemDecoration(VerticalSpaceItemDecoration(verticalSpaceInDp = 8))
-        rvRepositories?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rvRepositories?.run {
+            adapter = repositoriesAdapter
+            layoutManager = LinearLayoutManager(this@SearchRepositoriesActivity)
+            addItemDecoration(VerticalSpaceItemDecoration(verticalSpaceInDp = 8))
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
 
-                if (!recyclerView.canScrollVertically(1) &&
-                    newState == RecyclerView.SCROLL_STATE_IDLE
-                ) {
-                    viewModel.fetchRepositories()
+                    if (!recyclerView.canScrollVertically(1) &&
+                        newState == RecyclerView.SCROLL_STATE_IDLE
+                    ) {
+                        viewModel.fetchRepositories()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 }
