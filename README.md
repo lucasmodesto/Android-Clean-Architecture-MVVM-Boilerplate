@@ -8,12 +8,20 @@ Android MVVM sample with Clean Architecture concepts
 - [Koin](https://github.com/InsertKoinIO/koin)
 - [Picasso](https://github.com/square/picasso)
 - [Shimmer](https://github.com/facebook/shimmer-android)
+- [Mockk](https://mockk.io/)
+- [Espresso](https://developer.android.com/training/testing/espresso)
+- [Truth](https://github.com/google/truth)
+- [JUnit](https://junit.org/junit4/)
+- [Jacoco](https://github.com/arturdm/jacoco-android-gradle-plugin)
+
+# Features
+- [x] Search repositories by language filter
+- [x] ViewModel unit tests
 
 # TODO items
-- [ ] Unit tests
 - [ ] Instrumented tests
-- [ ] Search feature
-- [ ] Sort filters feature
+- [ ] Data and Domain layers unit tests
+- [ ] Repository detail screen
 - [ ] Animations
 - [ ] Cache
 - [ ] Logger
