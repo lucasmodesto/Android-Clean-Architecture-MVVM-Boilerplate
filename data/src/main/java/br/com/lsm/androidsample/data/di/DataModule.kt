@@ -1,8 +1,10 @@
 package br.com.lsm.androidsample.data.di
 
-import br.com.lsm.androidsample.data.network.ApolloRxClient
+import br.com.lsm.androidsample.data.coroutines.DispatcherProvider
+import br.com.lsm.androidsample.data.coroutines.IDispatcherProvider
+import br.com.lsm.androidsample.data.network.ApolloClient
 import br.com.lsm.androidsample.data.network.AuthenticationInterceptor
-import br.com.lsm.androidsample.data.network.IApolloRxClient
+import br.com.lsm.androidsample.data.network.IApolloClient
 import br.com.lsm.androidsample.data.network.NetworkClientProvider
 import br.com.lsm.androidsample.data.repository.GitHubRepository
 import br.com.lsm.androidsample.domain.repository.IGitHubRepository
@@ -29,12 +31,19 @@ object DataModule {
             )
         }
 
-        single<IApolloRxClient> {
-            ApolloRxClient(apolloClient = get())
+        single<IApolloClient> {
+            ApolloClient(apolloClient = get())
+        }
+
+        single<IDispatcherProvider> {
+            DispatcherProvider()
         }
 
         single<IGitHubRepository> {
-            GitHubRepository(graphQlClient = get())
+            GitHubRepository(
+                graphQlClient = get(),
+                dispatcherProvider = get()
+            )
         }
     }
 }

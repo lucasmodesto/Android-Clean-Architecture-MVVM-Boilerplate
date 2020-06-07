@@ -1,82 +1,99 @@
 package br.com.lsm.androidsample.search
 
 import br.com.lsm.androidsample.core.BaseUnitTest
-import br.com.lsm.androidsample.core.TestUtils
-import br.com.lsm.androidsample.domain.entity.*
-import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import br.com.lsm.androidsample.core.State
+import br.com.lsm.androidsample.core.TestUtils
+import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
+import br.com.lsm.androidsample.domain.entity.Language
+import br.com.lsm.androidsample.domain.entity.PaginationData
+import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
 import com.google.common.truth.Truth
 import io.mockk.*
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
 import org.koin.test.inject
+import java.net.UnknownHostException
 
 class SearchRepositoriesViewModelTest : BaseUnitTest() {
 
     private val viewModel: SearchRepositoriesViewModel by inject()
-    private val getRepositoriesUseCaseMock: IGetRepositoriesUseCase by inject()
+    private val getRepositoriesUseCaseMock: IGetRepositoriesUseCase = mockk()
 
     @Before
     fun setMocks() {
-        setupKoin {
-            single<IGetRepositoriesUseCase>(override = true) { mockk() }
+        loadKoin {
+            single(override = true) { getRepositoriesUseCaseMock }
         }
     }
 
     @Test
     fun `fetchRepositories success behavior`() {
-        val observerMock = TestUtils.createSpyObserver<State<FetchRepositoriesResult>>()
+        // given
+        val observerMock = TestUtils.createStateSpyObserver<FetchRepositoriesResult>()
+        val capturedStates = mutableListOf<State<FetchRepositoriesResult>>()
+        val dataMock = mockk<FetchRepositoriesResult>(relaxed = true) {
+            every { repositories } returns listOf(mockk())
+            every { paginationData } returns mockk()
+        }
         viewModel.getRepositories().observeForever(observerMock)
+        every { getRepositoriesUseCaseMock.execute(any()) } returns flowOf(dataMock)
 
-        val data = mockk<FetchRepositoriesResult>(relaxed = true)
-
-        every { getRepositoriesUseCaseMock.execute(any()) } returns Single.just(data)
+        // when
         viewModel.fetchRepositories()
 
-        verify {
-            getRepositoriesUseCaseMock.execute(any())
+        // then
+        verify { getRepositoriesUseCaseMock.execute(any()) }
+        verify { observerMock.onChanged(capture(capturedStates)) }
+
+        val showLoadingState = capturedStates[0] as State.Loading
+        val successState = capturedStates[1] as State.Success
+        val hideLoadingState = capturedStates[2] as State.Loading
+
+        verifyOrder {
+            observerMock.onChanged(showLoadingState)
+            observerMock.onChanged(successState)
+            observerMock.onChanged(hideLoadingState)
         }
-
-        val slots = mutableListOf<State<FetchRepositoriesResult>>()
-        verify { observerMock.onChanged(capture(slots)) }
-
-        val showLoadingState = slots[0] as State.Loading
-        val hideLoadingState = slots[1] as State.Loading
-        val successState = slots[2] as State.Success
 
         Truth.assertThat(showLoadingState.isLoading).isTrue()
         Truth.assertThat(hideLoadingState.isLoading).isFalse()
-        Truth.assertThat(successState.data).isEqualTo(data)
-        Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
+        Truth.assertThat(successState.data).isEqualTo(dataMock)
         Truth.assertThat(viewModel.paginationData).isNotNull()
     }
 
     @Test
     fun `fetchRepositories error behavior`() {
-        val observerMock = TestUtils.createSpyObserver<State<FetchRepositoriesResult>>()
+        // given
+        val observerMock = TestUtils.createStateSpyObserver<FetchRepositoriesResult>()
         viewModel.getRepositories().observeForever(observerMock)
-
-        val error = Exception()
-
-        every { getRepositoriesUseCaseMock.execute(any()) } returns Single.error(error)
-        viewModel.fetchRepositories()
-
-        verify {
-            getRepositoriesUseCaseMock.execute(any())
+        val error = UnknownHostException()
+        every { getRepositoriesUseCaseMock.execute(any()) } returns flow {
+            throw error
         }
 
-        val slots = mutableListOf<State<FetchRepositoriesResult>>()
-        verify { observerMock.onChanged(capture(slots)) }
+        // when
+        viewModel.fetchRepositories()
 
-        val showLoadingState = slots[0] as State.Loading
-        val hideLoadingState = slots[1] as State.Loading
-        val errorState = slots[2] as State.Error
+        // then
+        verify { getRepositoriesUseCaseMock.execute(any()) }
+        val capturedStates = mutableListOf<State<FetchRepositoriesResult>>()
+        verify { observerMock.onChanged(capture(capturedStates)) }
+
+        val showLoadingState = capturedStates[0] as State.Loading
+        val hideLoadingState = capturedStates[1] as State.Loading
+        val errorState = capturedStates[2] as State.Error
+
+        verifyOrder {
+            observerMock.onChanged(showLoadingState)
+            observerMock.onChanged(hideLoadingState)
+            observerMock.onChanged(errorState)
+        }
 
         Truth.assertThat(showLoadingState.isLoading).isTrue()
         Truth.assertThat(hideLoadingState.isLoading).isFalse()
         Truth.assertThat(errorState.error).isEqualTo(error)
-        Truth.assertThat(viewModel.disposables.size() > 0).isTrue()
     }
 
     @Test
@@ -89,8 +106,6 @@ class SearchRepositoriesViewModelTest : BaseUnitTest() {
         verify {
             getRepositoriesUseCaseMock wasNot Called
         }
-
-        Truth.assertThat(viewModel.disposables.size() == 0).isTrue()
     }
 
     @Test

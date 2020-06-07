@@ -4,13 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.com.lsm.androidsample.R
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import java.lang.reflect.ParameterizedType
-import kotlin.reflect.KClass
 
-abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView {
-
-    protected val viewModel: VM by lazy { getViewModel(getViewModelClass()) }
+abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun showErrorMessage(message: String, action: () -> Unit) {
         if (!isFinishing) {
@@ -23,11 +18,5 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseView 
                     action.invoke()
                 }.show()
         }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun getViewModelClass(): KClass<VM> {
-        return ((javaClass.genericSuperclass as ParameterizedType)
-            .actualTypeArguments[0] as Class<VM>).kotlin
     }
 }

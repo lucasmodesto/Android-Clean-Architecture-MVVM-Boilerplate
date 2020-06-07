@@ -40,6 +40,9 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
 
     useLibrary 'android.test.runner'
@@ -73,10 +76,7 @@ dependencies {
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.recyclerview
     implementation deps.androidx.cardview
-
-    // ReactiveX
-    implementation deps.rx.core
-    implementation deps.rx.android
+    implementation deps.androidx.lifecycle
 
     // Koin
     implementation deps.koin.core
@@ -94,10 +94,12 @@ dependencies {
 
     // Tests
     testImplementation deps.test.junit
+    testImplementation deps.test.junit5
     testImplementation deps.mockk.core
     testImplementation deps.androidx.test.truth
     testImplementation deps.google.truth
     testImplementation deps.androidx.test.arch
+    testImplementation deps.test.coroutines
 
     androidTestImplementation deps.androidx.test.core
     androidTestImplementation deps.androidx.test.junit

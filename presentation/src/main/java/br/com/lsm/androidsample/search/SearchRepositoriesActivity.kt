@@ -6,14 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.lsm.androidsample.R
-import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.core.BaseActivity
 import br.com.lsm.androidsample.core.State
+import br.com.lsm.androidsample.domain.entity.FetchRepositoriesResult
 import br.com.lsm.androidsample.utils.VerticalSpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_repository_list.*
 import kotlinx.android.synthetic.main.view_repositories_loading.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchRepositoriesActivity : BaseActivity<SearchRepositoriesViewModel>() {
+class SearchRepositoriesActivity : BaseActivity() {
+
+    private val viewModel: SearchRepositoriesViewModel by viewModel()
 
     private val repositoriesAdapter: RepositoryAdapter by lazy {
         RepositoryAdapter(data = viewModel.repositoriesList, itemClick = {
