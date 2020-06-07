@@ -4,14 +4,14 @@ Android MVVM sample with Clean Architecture concepts
 # Libraries and tools
 - [Apollo](https://github.com/apollographql/apollo-android)
 - [OkHttp](https://square.github.io/okhttp/)
-- [RxJava](https://github.com/ReactiveX/RxJava)
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
 - [Koin](https://github.com/InsertKoinIO/koin)
 - [Picasso](https://github.com/square/picasso)
 - [Shimmer](https://github.com/facebook/shimmer-android)
 - [Mockk](https://mockk.io/)
 - [Espresso](https://developer.android.com/training/testing/espresso)
 - [Truth](https://github.com/google/truth)
-- [JUnit](https://junit.org/junit4/)
+- [JUnit](https://junit.org/junit5/)
 - [Jacoco](https://github.com/arturdm/jacoco-android-gradle-plugin)
 
 # Features
