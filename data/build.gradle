@@ -10,7 +10,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':domain')
     implementation deps.kotlin.jdk
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+    implementation deps.kotlin.coroutines
 
     implementation deps.koin.core
 
