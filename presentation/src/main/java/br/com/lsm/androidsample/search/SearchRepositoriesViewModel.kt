@@ -13,7 +13,8 @@ import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.entity.PaginationData
 import br.com.lsm.androidsample.domain.usecase.GetRepositoriesInput
 import br.com.lsm.androidsample.domain.usecase.IGetRepositoriesUseCase
-import br.com.lsm.androidsample.extensions.applyStateFrom
+import br.com.lsm.androidsample.extensions.setStateFromFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class SearchRepositoriesViewModel(
@@ -28,12 +29,19 @@ class SearchRepositoriesViewModel(
     val repositoriesList = mutableListOf<GithubRepo>()
     val languagesList = getAvailableLanguages()
 
+    private var fetchRepositoriesJob: Job? = null
+
     fun getRepositories(): LiveData<State<FetchRepositoriesResult>> = repositoriesLivedata
 
     fun fetchRepositories() {
         if (paginationData?.hasNextPage == false) return
-        viewModelScope.launch {
-            repositoriesLivedata.applyStateFrom(
+
+        if (fetchRepositoriesJob?.isActive == true) {
+            fetchRepositoriesJob?.cancel()
+        }
+
+        fetchRepositoriesJob = viewModelScope.launch {
+            repositoriesLivedata.setStateFromFlow(
                 flow = getRepositoriesUseCase.execute(
                     GetRepositoriesInput(
                         language = selectedLanguage,

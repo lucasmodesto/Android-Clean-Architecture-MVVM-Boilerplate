@@ -26,7 +26,6 @@ class SearchRepositoriesActivity : BaseActivity() {
 
     private val languagesAdapter: LanguageFilterAdapter by lazy {
         LanguageFilterAdapter(data = viewModel.languagesList, onItemClick = {
-            if (!isLoading) {
                 repositoriesAdapter.clear()
                 viewModel.apply {
                     resetPage()
@@ -34,11 +33,8 @@ class SearchRepositoriesActivity : BaseActivity() {
                     fetchRepositories()
                 }
                 languagesAdapter.notifyDataSetChanged()
-            }
         })
     }
-
-    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +51,6 @@ class SearchRepositoriesActivity : BaseActivity() {
         val observer = Observer<State<FetchRepositoriesResult>> { state ->
             when (state) {
                 is State.Loading -> {
-                    this.isLoading = state.isLoading
                     if (state.isLoading) {
                         if (viewModel.repositoriesList.isEmpty()) {
                             shimmerView?.visibility = View.VISIBLE
