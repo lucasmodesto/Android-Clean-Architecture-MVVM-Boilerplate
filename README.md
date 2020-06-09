@@ -20,6 +20,7 @@ Android MVVM sample with Clean Architecture concepts
 - [x] Instrumented tests
 
 # TODO items
+- [ ] Jacoco config
 - [ ] Data and Domain layers unit tests
 - [ ] Repository detail screen
 - [ ] Animations
