@@ -2,7 +2,6 @@ package br.com.lsm.androidsample.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,8 +47,7 @@ class SearchRepositoriesActivity : BaseActivity() {
         }
     }
 
-    @VisibleForTesting
-    fun onStateChanged(state: State<FetchRepositoriesResult>) {
+    private fun onStateChanged(state: State<FetchRepositoriesResult>) {
         when (state) {
             is State.Loading -> {
                 if (state.isLoading) showLoadingState() else hideLoadingState()
