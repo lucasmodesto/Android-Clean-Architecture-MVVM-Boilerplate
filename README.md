@@ -17,14 +17,12 @@ Android MVVM sample with Clean Architecture concepts
 # Features
 - [x] Search repositories by language filter
 - [x] ViewModel unit tests
+- [x] Instrumented tests
 
 # TODO items
-- [ ] Instrumented tests
 - [ ] Data and Domain layers unit tests
 - [ ] Repository detail screen
 - [ ] Animations
-- [ ] Cache
-- [ ] Logger
 - [ ] Lint
 - [ ] CI
 
