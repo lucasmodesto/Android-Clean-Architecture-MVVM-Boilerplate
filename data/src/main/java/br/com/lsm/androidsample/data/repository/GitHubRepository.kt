@@ -1,7 +1,6 @@
 package br.com.lsm.androidsample.data.repository
 
 import FetchRepositoriesQuery
-import br.com.lsm.androidsample.data.coroutines.IDispatcherProvider
 import br.com.lsm.androidsample.data.mapper.FetchRepositoriesMapper
 import br.com.lsm.androidsample.data.model.request.LanguageQuery
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -10,16 +9,10 @@ import br.com.lsm.androidsample.domain.entity.Language
 import br.com.lsm.androidsample.domain.entity.PaginationData
 import br.com.lsm.androidsample.domain.repository.IGitHubRepository
 import com.apollographql.apollo.api.Input
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
-class GitHubRepository(
-    private val graphQlClient: IApolloClient,
-    private val dispatcherProvider: IDispatcherProvider
-) : IGitHubRepository {
+class GitHubRepository(private val graphQlClient: IApolloClient) : IGitHubRepository {
 
-    @ExperimentalCoroutinesApi
     override fun getRepositories(
         language: Language,
         paginationCursor: String?
@@ -42,6 +35,5 @@ class GitHubRepository(
             )
         )
         emit(repositories)
-
-    }.flowOn(dispatcherProvider.io())
+    }
 }

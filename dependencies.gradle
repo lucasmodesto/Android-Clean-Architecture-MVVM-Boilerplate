@@ -41,6 +41,7 @@ ext.deps = [
                         truth : "androidx.test.ext:truth:1.2.0",
                         runner: "androidx.test:runner:1.1.0",
                         rules : "androidx.test:rules:1.1.0",
+                        orchestrator: "androidx.test:orchestrator:1.2.0"
                 ]
         ],
 

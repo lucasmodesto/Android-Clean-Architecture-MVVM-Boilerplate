@@ -1,13 +1,12 @@
 package br.com.lsm.androidsample.core
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.lsm.androidsample.coroutines.TestDispatcherProvider
-import br.com.lsm.androidsample.data.coroutines.IDispatcherProvider
 import br.com.lsm.androidsample.data.di.DataModule
 import br.com.lsm.androidsample.di.PresentationModule
 import br.com.lsm.androidsample.domain.di.DomainModule
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -23,23 +22,8 @@ import org.koin.test.KoinTestRule
 
 open class BaseUnitTest : KoinTest {
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
-
-    @Before
-    fun setupCoroutineDispatcher() {
-        Dispatchers.setMain(mainThreadSurrogate)
-    }
-
-    @After
-    fun resetCoroutineMainDispatcher() {
-        stopKoin()
-        Dispatchers.resetMain()
-        mainThreadSurrogate.close()
-    }
-
-    protected fun loadKoin(block: Module.() -> Unit) {
-        loadKoinModules(module { block.invoke(this) })
-    }
+    @ExperimentalCoroutinesApi
+    private val dispatcher = TestCoroutineDispatcher()
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -55,10 +39,24 @@ open class BaseUnitTest : KoinTest {
                 DataModule.module
             )
         )
-        modules(module {
-            single<IDispatcherProvider>(override = true) {
-                TestDispatcherProvider()
-            }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Before
+    fun runBefore() {
+        Dispatchers.setMain(dispatcher)
+    }
+
+    @ExperimentalCoroutinesApi
+    @After
+    fun runAfter() {
+        stopKoin()
+        Dispatchers.resetMain()
+    }
+
+    protected fun loadKoin(block: Module.() -> Unit) {
+        loadKoinModules(module {
+            block.invoke(this)
         })
     }
 }

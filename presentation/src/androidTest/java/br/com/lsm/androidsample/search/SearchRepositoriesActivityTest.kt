@@ -25,7 +25,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 @RunWith(AndroidJUnit4::class)
 class SearchRepositoriesActivityTest : BaseAndroidTest() {
 
-    lateinit var viewModelMock: SearchRepositoriesViewModel
+    private lateinit var viewModelMock: SearchRepositoriesViewModel
 
     @Rule
     @JvmField

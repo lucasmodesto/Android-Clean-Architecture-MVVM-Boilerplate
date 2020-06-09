@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -14,6 +13,7 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         testInstrumentationRunner "br.com.lsm.androidsample.core.TestAppJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -39,10 +39,8 @@ android {
     }
 
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
-        unitTests.all {
-            useJUnitPlatform()
-        }
     }
 
     useLibrary 'android.test.runner'
@@ -52,14 +50,7 @@ android {
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
     }
-}
 
-jacoco {
-    toolVersion = "0.8.4"
-}
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
 }
 
 dependencies {
@@ -94,7 +85,6 @@ dependencies {
 
     // Tests
     testImplementation deps.test.junit
-    testImplementation deps.test.junit5
     testImplementation deps.mockk.core
     testImplementation deps.androidx.test.truth
     testImplementation deps.google.truth
@@ -107,6 +97,7 @@ dependencies {
     androidTestImplementation deps.androidx.test.rules
     androidTestImplementation deps.androidx.test.truth
     androidTestImplementation deps.androidx.test.arch
+    androidTestUtil deps.androidx.test.orchestrator
     androidTestImplementation deps.google.truth
     androidTestImplementation deps.mockk.android
     androidTestImplementation deps.koin.test

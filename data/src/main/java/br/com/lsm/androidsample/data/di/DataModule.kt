@@ -1,7 +1,5 @@
 package br.com.lsm.androidsample.data.di
 
-import br.com.lsm.androidsample.data.coroutines.DispatcherProvider
-import br.com.lsm.androidsample.data.coroutines.IDispatcherProvider
 import br.com.lsm.androidsample.data.network.ApolloClient
 import br.com.lsm.androidsample.data.network.AuthenticationInterceptor
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -35,14 +33,9 @@ object DataModule {
             ApolloClient(apolloClient = get())
         }
 
-        single<IDispatcherProvider> {
-            DispatcherProvider()
-        }
-
         single<IGitHubRepository> {
             GitHubRepository(
-                graphQlClient = get(),
-                dispatcherProvider = get()
+                graphQlClient = get()
             )
         }
     }
