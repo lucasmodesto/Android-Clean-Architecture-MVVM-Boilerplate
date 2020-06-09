@@ -11,7 +11,6 @@ sealed class State<T> {
             return when (error) {
                 is NetworkError.NotConnected -> R.string.message_no_internet
                 is NetworkError.SlowConnection -> R.string.message_slow_internet
-                is NetworkError.Canceled -> R.string.message_unknown_error
                 else -> R.string.message_unknown_error
             }
         }

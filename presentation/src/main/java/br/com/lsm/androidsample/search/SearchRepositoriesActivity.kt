@@ -2,6 +2,7 @@ package br.com.lsm.androidsample.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,13 +27,13 @@ class SearchRepositoriesActivity : BaseActivity() {
 
     private val languagesAdapter: LanguageFilterAdapter by lazy {
         LanguageFilterAdapter(data = viewModel.languagesList, onItemClick = {
-                repositoriesAdapter.clear()
-                viewModel.apply {
-                    resetPage()
-                    setLanguageFilter(language = it.language)
-                    fetchRepositories()
-                }
-                languagesAdapter.notifyDataSetChanged()
+            repositoriesAdapter.clear()
+            viewModel.apply {
+                resetPage()
+                setLanguageFilter(language = it.language)
+                fetchRepositories()
+            }
+            languagesAdapter.notifyDataSetChanged()
         })
     }
 
@@ -41,38 +42,42 @@ class SearchRepositoriesActivity : BaseActivity() {
         setContentView(R.layout.activity_repository_list)
         setupRepositoriesRecyclerView()
         setupLanguagesRecyclerView()
-        setLiveDataObserver()
+        viewModel.getRepositories().observe(this, Observer { state -> onStateChanged(state) })
         if (viewModel.repositoriesList.isEmpty()) {
             viewModel.fetchRepositories()
         }
     }
 
-    private fun setLiveDataObserver() {
-        val observer = Observer<State<FetchRepositoriesResult>> { state ->
-            when (state) {
-                is State.Loading -> {
-                    if (state.isLoading) {
-                        if (viewModel.repositoriesList.isEmpty()) {
-                            shimmerView?.visibility = View.VISIBLE
-                        }
-                    } else {
-                        shimmerView?.visibility = View.GONE
-                    }
-                }
-                is State.Success -> {
-                    repositoriesAdapter.hasNextPage = state.data.paginationData.hasNextPage
-                    repositoriesAdapter.update(state.data.repositories)
-                }
-                is State.Error -> {
-                    showErrorMessage(
-                        message = getString(state.getErrorMessage()),
-                        action = {
-                            viewModel.fetchRepositories()
-                        })
+    @VisibleForTesting
+    fun onStateChanged(state: State<FetchRepositoriesResult>) {
+        when (state) {
+            is State.Loading -> {
+                if (state.isLoading) showLoadingState() else hideLoadingState()
+            }
+            is State.Success -> {
+                repositoriesAdapter.run {
+                    hasNextPage = state.data.paginationData.hasNextPage
+                    update(state.data.repositories)
                 }
             }
+            is State.Error -> {
+                showErrorMessage(
+                    message = getString(state.getErrorMessage()),
+                    action = {
+                        viewModel.fetchRepositories()
+                    })
+            }
         }
-        viewModel.getRepositories().observe(this, observer)
+    }
+
+    private fun showLoadingState() {
+        if (viewModel.repositoriesList.isEmpty()) {
+            shimmerView?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoadingState() {
+        shimmerView?.visibility = View.GONE
     }
 
     private fun setupLanguagesRecyclerView() {

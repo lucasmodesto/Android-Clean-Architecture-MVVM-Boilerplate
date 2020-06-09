@@ -13,7 +13,7 @@ android {
         targetSdkVersion versions.targetSdkVersion
         versionCode versions.versionCode
         versionName versions.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "br.com.lsm.androidsample.core.TestAppJUnitRunner"
     }
 
     buildTypes {
@@ -106,6 +106,7 @@ dependencies {
     androidTestImplementation deps.androidx.test.runner
     androidTestImplementation deps.androidx.test.rules
     androidTestImplementation deps.androidx.test.truth
+    androidTestImplementation deps.androidx.test.arch
     androidTestImplementation deps.google.truth
     androidTestImplementation deps.mockk.android
     androidTestImplementation deps.koin.test
