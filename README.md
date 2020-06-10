@@ -14,11 +14,6 @@ Android MVVM sample with Clean Architecture concepts
 - [JUnit](https://junit.org/junit5/)
 - [Jacoco](https://github.com/arturdm/jacoco-android-gradle-plugin)
 
-# Features
-- [x] Search repositories by language filter
-- [x] ViewModel unit tests
-- [x] Instrumented tests
-
 # TODO items
 - [ ] Jacoco config
 - [ ] Data and Domain layers unit tests
