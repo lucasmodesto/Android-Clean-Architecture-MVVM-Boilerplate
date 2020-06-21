@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/lucasmodesto/Android-Clean-Architecture-MVVM-Boilerplate.svg?style=shield)](https://circleci.com/gh/lucasmodesto/Android-Clean-Architecture-MVVM-Boilerplate)
+
 # Architecture boilerplate sample app
 Android MVVM sample with Clean Architecture concepts
 
