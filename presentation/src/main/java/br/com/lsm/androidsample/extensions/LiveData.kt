@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 @ExperimentalCoroutinesApi
 suspend fun <T> MutableLiveData<State<T>>.setStateFromFlow(
     flow: Flow<T>,
-    onCollected: (T) -> Unit
+    onCollected: (T) -> Unit = {}
 ) {
     flow.onStart {
         value = State.Loading(isLoading = true)

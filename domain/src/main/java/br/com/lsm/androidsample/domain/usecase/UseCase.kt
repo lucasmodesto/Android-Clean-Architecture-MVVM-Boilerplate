@@ -3,7 +3,7 @@ package br.com.lsm.androidsample.domain.usecase
 import kotlinx.coroutines.flow.Flow
 
 
-abstract class UseCase<T> {
+abstract class UseCase {
 
     object FromFlow {
         interface WithInput<in Input, out Output> {
