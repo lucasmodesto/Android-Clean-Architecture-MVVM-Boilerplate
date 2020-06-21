@@ -1,6 +1,7 @@
 package br.com.lsm.androidsample.data.repository
 
 import FetchRepositoriesQuery
+import br.com.lsm.androidsample.data.coroutines.extensions.retryWhenIsSlowConnection
 import br.com.lsm.androidsample.data.mapper.FetchRepositoriesMapper
 import br.com.lsm.androidsample.data.model.request.LanguageQuery
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -35,5 +36,5 @@ class GitHubRepository(private val graphQlClient: IApolloClient) : IGitHubReposi
             )
         )
         emit(repositories)
-    }
+    }.retryWhenIsSlowConnection()
 }
