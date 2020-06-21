@@ -22,7 +22,6 @@ Android MVVM sample with Clean Architecture concepts
 - [ ] Repository detail screen
 - [ ] Animations
 - [ ] Lint
-- [ ] CI
 
 # Contributors
 - [David Pedroza](https://github.com/dpedroza)
