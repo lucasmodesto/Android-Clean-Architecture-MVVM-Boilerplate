@@ -1,5 +1,7 @@
 package br.com.lsm.androidsample.data.di
 
+import br.com.lsm.androidsample.data.coroutines.IFlowConfiguration
+import br.com.lsm.androidsample.data.coroutines.NetworkFlowConfiguration
 import br.com.lsm.androidsample.data.network.ApolloClient
 import br.com.lsm.androidsample.data.network.AuthenticationInterceptor
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -11,6 +13,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 object DataModule {
+
+    private const val NETWORK_FLOW_CONFIG = "networkFlowConfig"
 
     val module = module {
 
@@ -33,9 +37,12 @@ object DataModule {
             ApolloClient(apolloClient = get())
         }
 
+        single<IFlowConfiguration>(named(NETWORK_FLOW_CONFIG)) { NetworkFlowConfiguration() }
+
         single<IGitHubRepository> {
             GitHubRepository(
-                graphQlClient = get()
+                graphQlClient = get(),
+                networkFlowConfig = get(named(NETWORK_FLOW_CONFIG))
             )
         }
     }

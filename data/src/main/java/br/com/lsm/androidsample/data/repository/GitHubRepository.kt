@@ -1,7 +1,7 @@
 package br.com.lsm.androidsample.data.repository
 
 import FetchRepositoriesQuery
-import br.com.lsm.androidsample.data.coroutines.extensions.retryWhenIsSlowConnection
+import br.com.lsm.androidsample.data.coroutines.IFlowConfiguration
 import br.com.lsm.androidsample.data.mapper.FetchRepositoriesMapper
 import br.com.lsm.androidsample.data.model.request.LanguageQuery
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -12,7 +12,10 @@ import br.com.lsm.androidsample.domain.repository.IGitHubRepository
 import com.apollographql.apollo.api.Input
 import kotlinx.coroutines.flow.flow
 
-class GitHubRepository(private val graphQlClient: IApolloClient) : IGitHubRepository {
+class GitHubRepository(
+    private val graphQlClient: IApolloClient,
+    private val networkFlowConfig: IFlowConfiguration
+) : IGitHubRepository {
 
     override fun getRepositories(
         language: Language,
@@ -36,5 +39,7 @@ class GitHubRepository(private val graphQlClient: IApolloClient) : IGitHubReposi
             )
         )
         emit(repositories)
-    }.retryWhenIsSlowConnection()
+    }.let {
+        networkFlowConfig.apply(it)
+    }
 }
