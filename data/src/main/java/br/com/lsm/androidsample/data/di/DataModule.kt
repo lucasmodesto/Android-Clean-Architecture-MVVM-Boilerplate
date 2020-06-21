@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 object DataModule {
 
-    private const val NETWORK_FLOW_CONFIG = "networkFlowConfig"
+
 
     val module = module {
 
@@ -37,12 +37,12 @@ object DataModule {
             ApolloClient(apolloClient = get())
         }
 
-        single<IFlowConfiguration>(named(NETWORK_FLOW_CONFIG)) { NetworkFlowConfiguration() }
+        single<List<IFlowConfiguration>> { listOf(NetworkFlowConfiguration()) }
 
         single<IGitHubRepository> {
             GitHubRepository(
                 graphQlClient = get(),
-                networkFlowConfig = get(named(NETWORK_FLOW_CONFIG))
+                flowConfiguration = get()
             )
         }
     }

@@ -1,7 +1,8 @@
 package br.com.lsm.androidsample.data.di
 
 object Constants {
-    const val BASE_API_URL = "BASE_API_URL"
-    const val INTERCEPTOR_AUTHENTICATION = "AuthInterceptor"
-    const val GITHUB_TOKEN = "GITHUB_TOKEN"
+    const val BASE_API_URL = "baseApiUrl"
+    const val INTERCEPTOR_AUTHENTICATION = "authInterceptor"
+    const val GITHUB_TOKEN = "gitHubToken"
+    const val NETWORK_FLOW_CONFIG = "networkFlowConfig"
 }

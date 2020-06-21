@@ -2,6 +2,7 @@ package br.com.lsm.androidsample.data.repository
 
 import FetchRepositoriesQuery
 import br.com.lsm.androidsample.data.coroutines.IFlowConfiguration
+import br.com.lsm.androidsample.data.coroutines.extensions.composeFlowConfiguration
 import br.com.lsm.androidsample.data.mapper.FetchRepositoriesMapper
 import br.com.lsm.androidsample.data.model.request.LanguageQuery
 import br.com.lsm.androidsample.data.network.IApolloClient
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 
 class GitHubRepository(
     private val graphQlClient: IApolloClient,
-    private val networkFlowConfig: IFlowConfiguration
+    private val flowConfiguration: List<IFlowConfiguration>
 ) : IGitHubRepository {
 
     override fun getRepositories(
@@ -39,7 +40,5 @@ class GitHubRepository(
             )
         )
         emit(repositories)
-    }.let {
-        networkFlowConfig.apply(it)
-    }
+    }.composeFlowConfiguration(flowConfiguration)
 }
