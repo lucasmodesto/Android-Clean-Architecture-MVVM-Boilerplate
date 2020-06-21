@@ -9,7 +9,6 @@ import br.com.lsm.androidsample.domain.entity.GithubRepo
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_github_repository.view.*
 import kotlinx.android.synthetic.main.item_load_progress.view.*
-import java.lang.IllegalArgumentException
 
 class RepositoryAdapter(
     private val data: MutableList<GithubRepo>,
@@ -58,8 +57,9 @@ class RepositoryAdapter(
         }
 
     fun update(list: List<GithubRepo>) {
+        val currentDataSize = data.size
         this.data.addAll(list)
-        notifyItemRangeChanged(itemCount, this.data.size)
+        notifyItemRangeChanged(currentDataSize, this.data.size)
     }
 
     fun clear() {
