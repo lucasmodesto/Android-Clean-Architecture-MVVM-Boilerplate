@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/lucasmodesto/Android-Clean-Architecture-MVVM-Boilerplate.svg?style=svg)](https://circleci.com/gh/lucasmodesto/Android-Clean-Architecture-MVVM-Boilerplate)
 
 # Architecture boilerplate sample app
-Android MVVM sample with Clean Architecture concepts
+Android MVVM sample with clean architecture
 
 # Libraries and tools
 - [Apollo](https://github.com/apollographql/apollo-android)
